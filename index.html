@@ -167,7 +167,17 @@
     </div>
 
     <div id="seo-content" class="seo-section">
-      <!-- SEO content will be injected -->
+      <h2>명리학과 숫자의 상관관계</h2>
+      <p>동양의 전통 철학인 명리학은 만물의 변화를 숫자의 흐름으로 해석하곤 합니다. 성명학에서는 이름의 획수를 통해 수리(數理)를 도출하며, 사주팔자에서는 태어난 연, 월, 일, 시를 간지로 변환하여 그 안에 담긴 오행의 균형을 분석합니다. '명리 로또 번호 추천기'는 이러한 전통적 접근 방식을 현대적인 번호 생성 알고리즘에 접목했습니다.</p>
+
+      <h3>오행으로 보는 행운의 흐름</h3>
+      <p>오행(목, 화, 토, 금, 수)은 각각 고유한 기운과 숫자를 상징합니다. 예를 들어, 목(木)의 기운은 성장과 시작을, 금(金)의 기운은 결실과 정리를 의미합니다. 사용자가 입력한 이름과 생년월일은 고유한 수리적 에너지로 변환되며, 선택한 특정 날짜의 천간지지와 결합하여 그날 가장 조화로운 숫자의 조합을 찾아냅니다.</p>
+
+      <h3>데이터와 철학의 만남</h3>
+      <p>우리는 단순한 난수 생성이 아닌, 사용자 개개인의 고유 정보를 기반으로 한 '퍼스널 번호'를 지향합니다. 이름의 울림과 태어난 날의 기운이 특정 숫자의 진동과 공명한다는 아이디어에서 출발했습니다. 비록 로또는 확률의 게임이지만, 나만의 의미 있는 숫자를 통해 그날의 행운을 점쳐보는 행위는 일상에 작은 즐거움과 희망을 선사합니다.</p>
+
+      <h3>현명하게 즐기는 법</h3>
+      <p>명리학적 번호 추천은 당첨을 보장하는 과학적 근거가 아닙니다. 하지만 자신의 기운을 살피고 그에 맞는 숫자를 선택하는 과정은 마음의 안정을 돕고 긍정적인 에너지를 불러일으킬 수 있습니다. 가벼운 마음으로 재미있게 서비스를 이용하시길 권장합니다.</p>
     </div>
 
     <footer>
@@ -177,7 +187,7 @@
         <a href="privacy.html" id="footer-privacy">개인정보처리방침</a> | 
         <a href="#contact-title" id="footer-contact">제휴문의</a>
       </div>
-      <p>© 2024 명리 로또 & 반려동물 궁합. All rights reserved.</p>
+      <p>© <span id="footer-year"></span> 명리 로또 &amp; 반려동물 궁합. All rights reserved.</p>
     </footer>
   </div>
 
@@ -375,6 +385,7 @@
       const today = new Date();
       const todayStr = `${today.getFullYear()}-${pad(today.getMonth() + 1)}-${pad(today.getDate())}`;
       document.getElementById("targetDate").value = todayStr;
+      document.getElementById("footer-year").textContent = today.getFullYear();
       updatePageUI();
     };
   </script>

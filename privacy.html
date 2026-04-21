@@ -3,6 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="google-adsense-account" content="ca-pub-5355669932210627">
+  <meta name="description" id="meta-desc" content="명리 로또 & 반려동물 궁합 개인정보처리방침입니다. 수집 항목, 이용 목적, 보유 기간 등을 안내합니다.">
+  <meta name="keywords" id="meta-keywords" content="개인정보처리방침, 개인정보 보호, 명리 로또, 반려동물 궁합">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5355669932210627" crossorigin="anonymous"></script>
   <title id="title-tag">개인정보처리방침 - 명리 로또 & 반려동물 궁합</title>
   <link rel="stylesheet" href="style.css" />
 </head>
@@ -23,18 +27,26 @@
     <div class="card">
       <h1 id="page-title">개인정보처리방침</h1>
       <div id="page-content" class="main-content">
-        <!-- Content will be injected by i18n -->
+        <p>본 사이트는 사용자의 개인정보를 소중히 다루며, 관련 법령을 준수합니다.</p>
+        <h3>1. 수집하는 개인정보 항목</h3>
+        <p>서비스 이용 과정에서 이름, 생년월일, 성별, 반려동물 및 사용자의 사진 등이 입력될 수 있습니다.</p>
+        <h3>2. 개인정보의 수집 및 이용 목적</h3>
+        <p>입력된 정보는 오행 및 수리 계산 알고리즘을 통한 결과 도출을 위해 실시간으로 사용됩니다. 결과 도출 즉시 휘발되며 별도의 데이터베이스에 저장되지 않습니다.</p>
+        <h3>3. 구글 애드센스 및 쿠키 이용</h3>
+        <p>본 사이트는 광고 게재를 위해 구글 애드센스를 사용하며, 사용자 맞춤형 광고 제공을 위해 쿠키를 활용할 수 있습니다. 사용자는 브라우저 설정에서 쿠키 수집을 거부할 수 있습니다.</p>
+        <h3>4. 제3자 제공 및 위탁</h3>
+        <p>사이트는 원칙적으로 사용자의 개인정보를 외부에 제공하거나 저장하지 않습니다.</p>
       </div>
     </div>
 
     <footer>
       <div class="footer-links">
-        <a href="about.html" id="footer-about">소개</a> | 
-        <a href="terms.html" id="footer-terms">이용약관</a> | 
-        <a href="privacy.html" id="footer-privacy">개인정보처리방침</a> | 
+        <a href="about.html" id="footer-about">소개</a> |
+        <a href="terms.html" id="footer-terms">이용약관</a> |
+        <a href="privacy.html" id="footer-privacy">개인정보처리방침</a> |
         <a href="index.html#contact-title" id="footer-contact">제휴문의</a>
       </div>
-      <p>© 2024 명리 로또 & 반려동물 궁합. All rights reserved.</p>
+      <p>© <span id="footer-year"></span> 명리 로또 &amp; 반려동물 궁합. All rights reserved.</p>
     </footer>
   </div>
 
@@ -48,6 +60,7 @@
       document.getElementById("page-content").innerHTML = t.privacyContent;
     }
     window.addEventListener('DOMContentLoaded', () => {
+      document.getElementById("footer-year").textContent = new Date().getFullYear();
       updatePageUI();
     });
   </script>
