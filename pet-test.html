@@ -5,6 +5,291 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>반려동물 궁합 테스트</title>
   <link rel="stylesheet" href="style.css" />
+  <style>
+    .upload-section {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-bottom: 24px;
+    }
+
+    .upload-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .upload-label {
+      font-weight: bold;
+      font-size: 16px;
+      color: var(--label-color);
+      text-align: center;
+    }
+
+    .upload-area {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      border: 2px dashed var(--text-sub);
+      border-radius: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      overflow: hidden;
+      background: var(--analysis-bg);
+      position: relative;
+    }
+
+    .upload-area:hover {
+      border-color: var(--btn-bg);
+      background: rgba(250, 204, 21, 0.05);
+    }
+
+    .upload-area.has-image {
+      border-style: solid;
+      border-color: var(--btn-bg);
+    }
+
+    .upload-area img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 18px;
+    }
+
+    .upload-placeholder {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-sub);
+      font-size: 14px;
+      text-align: center;
+      padding: 16px;
+    }
+
+    .upload-icon {
+      font-size: 40px;
+    }
+
+    .upload-input {
+      display: none;
+    }
+
+    .remove-btn {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: rgba(0,0,0,0.6);
+      color: #fff;
+      border: none;
+      border-radius: 50%;
+      width: 28px;
+      height: 28px;
+      font-size: 16px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
+      z-index: 10;
+    }
+
+    .vs-divider {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      font-weight: bold;
+      color: var(--btn-bg);
+      padding-top: 40px;
+    }
+
+    .analyze-btn {
+      width: 100%;
+      padding: 16px;
+      font-size: 18px;
+      font-weight: bold;
+      background: var(--btn-bg);
+      color: var(--btn-text);
+      border: none;
+      border-radius: 14px;
+      cursor: pointer;
+      transition: transform 0.15s ease, opacity 0.2s;
+      margin-top: 8px;
+    }
+
+    .analyze-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .analyze-btn:not(:disabled):hover {
+      transform: translateY(-2px);
+    }
+
+    .result-section {
+      margin-top: 28px;
+      display: none;
+    }
+
+    .score-wrap {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .score-label {
+      font-size: 16px;
+      color: var(--text-sub);
+      margin-bottom: 8px;
+    }
+
+    .score-number {
+      font-size: 72px;
+      font-weight: bold;
+      line-height: 1;
+    }
+
+    .score-unit {
+      font-size: 24px;
+      color: var(--text-sub);
+    }
+
+    .score-bar-wrap {
+      margin: 16px auto;
+      max-width: 400px;
+      background: var(--analysis-bg);
+      border-radius: 999px;
+      height: 16px;
+      overflow: hidden;
+    }
+
+    .score-bar {
+      height: 100%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #facc15, #f97316, #ef4444);
+      transition: width 1s cubic-bezier(0.34, 1.56, 0.64, 1);
+      width: 0%;
+    }
+
+    .score-emoji {
+      font-size: 48px;
+      margin: 8px 0;
+    }
+
+    .result-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .result-card {
+      background: var(--analysis-bg);
+      border-radius: 16px;
+      padding: 16px;
+      text-align: center;
+    }
+
+    .result-card-icon {
+      font-size: 28px;
+      margin-bottom: 8px;
+    }
+
+    .result-card-title {
+      font-size: 13px;
+      color: var(--text-sub);
+      margin-bottom: 4px;
+    }
+
+    .result-card-value {
+      font-size: 16px;
+      font-weight: bold;
+      color: var(--text-main);
+    }
+
+    .result-desc {
+      background: var(--analysis-bg);
+      border-radius: 16px;
+      padding: 20px;
+      line-height: 1.8;
+      color: var(--text-main);
+    }
+
+    .result-preview {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .result-preview img {
+      width: 80px;
+      height: 80px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 3px solid var(--btn-bg);
+    }
+
+    .result-preview-heart {
+      font-size: 32px;
+    }
+
+    .retry-btn {
+      width: 100%;
+      padding: 14px;
+      font-size: 15px;
+      font-weight: bold;
+      background: var(--card-bg);
+      color: var(--text-main);
+      border: 1px solid var(--text-sub);
+      border-radius: 14px;
+      cursor: pointer;
+      margin-top: 16px;
+      transition: all 0.2s;
+    }
+
+    .retry-btn:hover {
+      background: var(--text-sub);
+      color: #1e293b;
+    }
+
+    .loading-overlay {
+      text-align: center;
+      padding: 40px 0;
+      display: none;
+    }
+
+    .loading-spinner {
+      font-size: 48px;
+      display: inline-block;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    @media (max-width: 760px) {
+      .upload-section {
+        grid-template-columns: 1fr;
+      }
+
+      .vs-divider {
+        padding-top: 0;
+      }
+
+      .result-cards {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+  </style>
 </head>
 <body data-theme="dark">
   <div class="wrap">
@@ -18,16 +303,388 @@
         <button class="control-btn" id="theme-toggle" onclick="toggleTheme()">☀️ Light Mode</button>
       </div>
     </div>
+
     <div class="card">
-      <h1 id="title">반려동물 궁합 테스트</h1>
+      <h1 id="title">🐾 반려동물 궁합 테스트</h1>
       <div class="sub" id="subtitle">
-        사진을 업로드하면 반려동물과의 궁합을 분석해 드립니다.
+        강아지 사진과 주인 얼굴 사진을 업로드하면<br>
+        명리학 기반으로 반려동물과의 궁합을 분석해 드립니다.
       </div>
-      <div class="main-content">
-        <p>이 페이지는 현재 개발 중입니다. 곧 반려동물 궁합 테스트 기능이 추가될 예정입니다.</p>
+
+      <!-- 업로드 섹션 -->
+      <div id="upload-form">
+        <div class="upload-section">
+          <!-- 강아지 사진 -->
+          <div class="upload-box">
+            <div class="upload-label" id="label-pet">🐶 강아지 사진</div>
+            <div class="upload-area" id="pet-drop-area" onclick="document.getElementById('pet-input').click()">
+              <div class="upload-placeholder" id="pet-placeholder">
+                <span class="upload-icon">📷</span>
+                <span id="pet-placeholder-text">사진을 클릭하여 업로드</span>
+              </div>
+              <img id="pet-preview" src="" alt="강아지 미리보기" style="display:none;" />
+              <button class="remove-btn" id="pet-remove" onclick="removeImage(event, 'pet')" style="display:none;">✕</button>
+            </div>
+            <input type="file" id="pet-input" class="upload-input" accept="image/*" onchange="previewImage(event, 'pet')" />
+          </div>
+
+          <div class="vs-divider">VS</div>
+
+          <!-- 주인 사진 -->
+          <div class="upload-box">
+            <div class="upload-label" id="label-owner">🧑 주인 얼굴 사진</div>
+            <div class="upload-area" id="owner-drop-area" onclick="document.getElementById('owner-input').click()">
+              <div class="upload-placeholder" id="owner-placeholder">
+                <span class="upload-icon">🤳</span>
+                <span id="owner-placeholder-text">사진을 클릭하여 업로드</span>
+              </div>
+              <img id="owner-preview" src="" alt="주인 미리보기" style="display:none;" />
+              <button class="remove-btn" id="owner-remove" onclick="removeImage(event, 'owner')" style="display:none;">✕</button>
+            </div>
+            <input type="file" id="owner-input" class="upload-input" accept="image/*" onchange="previewImage(event, 'owner')" />
+          </div>
+        </div>
+
+        <button class="analyze-btn" id="analyze-btn" onclick="analyzeCompatibility()" disabled>
+          <span id="analyze-btn-text">궁합 분석하기</span>
+        </button>
+      </div>
+
+      <!-- 로딩 -->
+      <div class="loading-overlay" id="loading-area">
+        <div class="loading-spinner">🔮</div>
+        <p id="loading-text" style="margin-top: 16px; color: var(--text-sub);">기운을 분석하는 중입니다...</p>
+      </div>
+
+      <!-- 결과 섹션 -->
+      <div class="result-section" id="result-section">
+        <div class="result-preview">
+          <img id="result-pet-img" src="" alt="강아지" />
+          <div class="result-preview-heart" id="result-heart">💛</div>
+          <img id="result-owner-img" src="" alt="주인" />
+        </div>
+
+        <div class="score-wrap">
+          <div class="score-label" id="score-label">궁합 점수</div>
+          <div>
+            <span class="score-number" id="score-number">0</span>
+            <span class="score-unit">점</span>
+          </div>
+          <div class="score-bar-wrap">
+            <div class="score-bar" id="score-bar"></div>
+          </div>
+          <div class="score-emoji" id="score-emoji">🐾</div>
+        </div>
+
+        <div class="result-cards">
+          <div class="result-card">
+            <div class="result-card-icon">☯️</div>
+            <div class="result-card-title" id="rc-element-label">주 오행</div>
+            <div class="result-card-value" id="rc-element">-</div>
+          </div>
+          <div class="result-card">
+            <div class="result-card-icon">🌙</div>
+            <div class="result-card-title" id="rc-energy-label">기운 흐름</div>
+            <div class="result-card-value" id="rc-energy">-</div>
+          </div>
+          <div class="result-card">
+            <div class="result-card-icon">💫</div>
+            <div class="result-card-title" id="rc-keyword-label">핵심 키워드</div>
+            <div class="result-card-value" id="rc-keyword">-</div>
+          </div>
+          <div class="result-card">
+            <div class="result-card-icon">🎯</div>
+            <div class="result-card-title" id="rc-tip-label">오늘의 궁합 팁</div>
+            <div class="result-card-value" id="rc-tip">-</div>
+          </div>
+        </div>
+
+        <div class="result-desc" id="result-desc"></div>
+
+        <button class="retry-btn" id="retry-btn" onclick="resetForm()">다시 테스트하기</button>
       </div>
     </div>
   </div>
+
   <script src="main.js"></script>
+  <script>
+    const i18n = {
+      ko: {
+        title: "🐾 반려동물 궁합 테스트",
+        subtitle: "강아지 사진과 주인 얼굴 사진을 업로드하면<br>명리학 기반으로 반려동물과의 궁합을 분석해 드립니다.",
+        labelPet: "🐶 강아지 사진",
+        labelOwner: "🧑 주인 얼굴 사진",
+        petPlaceholder: "사진을 클릭하여 업로드",
+        ownerPlaceholder: "사진을 클릭하여 업로드",
+        analyzeBtn: "궁합 분석하기",
+        loadingText: "기운을 분석하는 중입니다...",
+        scoreLabel: "궁합 점수",
+        scoreUnit: "점",
+        rcElementLabel: "주 오행",
+        rcEnergyLabel: "기운 흐름",
+        rcKeywordLabel: "핵심 키워드",
+        rcTipLabel: "오늘의 궁합 팁",
+        retryBtn: "다시 테스트하기",
+        alertUpload: "강아지 사진과 주인 얼굴 사진을 모두 업로드해 주세요.",
+        navLotto: "로또 번호 생성",
+        navPet: "반려동물 궁합"
+      },
+      en: {
+        title: "🐾 Pet Compatibility Test",
+        subtitle: "Upload a photo of your dog and your face<br>to analyze your compatibility based on Asian astrology.",
+        labelPet: "🐶 Dog Photo",
+        labelOwner: "🧑 Owner Photo",
+        petPlaceholder: "Click to upload photo",
+        ownerPlaceholder: "Click to upload photo",
+        analyzeBtn: "Analyze Compatibility",
+        loadingText: "Analyzing the energies...",
+        scoreLabel: "Compatibility Score",
+        scoreUnit: "pts",
+        rcElementLabel: "Element",
+        rcEnergyLabel: "Energy Flow",
+        rcKeywordLabel: "Key Word",
+        rcTipLabel: "Today's Tip",
+        retryBtn: "Try Again",
+        alertUpload: "Please upload both a dog photo and an owner photo.",
+        navLotto: "Lotto Generator",
+        navPet: "Pet Compatibility"
+      }
+    };
+
+    const results = {
+      ko: [
+        {
+          grade: "천생연분", emoji: "💖", energy: "상생 흐름",
+          element: "목(木)", keyword: "신뢰·성장",
+          tip: "함께 산책하는 날",
+          desc: "두 기운이 서로를 키우는 상생 관계입니다. 강아지는 주인의 에너지에서 안정감을 느끼며, 주인 역시 반려견과 함께할 때 마음의 여유가 생깁니다. 매일 아침 짧은 산책 하나가 이 궁합을 더욱 깊게 만들어 줍니다."
+        },
+        {
+          grade: "찰떡궁합", emoji: "💛", energy: "화(火) 기운",
+          element: "화(火)", keyword: "활력·열정",
+          tip: "같이 뛰어노는 날",
+          desc: "불처럼 활발한 에너지가 서로를 끌어당깁니다. 강아지의 활발함이 주인의 생기를 불러일으키고, 주인의 열정이 강아지에게도 전달됩니다. 함께 활동적인 놀이를 즐길수록 궁합이 강해집니다."
+        },
+        {
+          grade: "좋은 인연", emoji: "💚", energy: "토(土) 기운",
+          element: "토(土)", keyword: "안정·신뢰",
+          tip: "루틴을 함께하는 날",
+          desc: "땅처럼 단단하고 변하지 않는 신뢰가 두 사이를 잇습니다. 강아지는 주인의 일정한 생활 패턴에서 안정을 찾고, 주인 역시 반려견의 한결같은 모습에서 위로를 받습니다. 규칙적인 일상이 이 궁합의 핵심입니다."
+        },
+        {
+          grade: "발전하는 사이", emoji: "💙", energy: "금(金) 기운",
+          element: "금(金)", keyword: "성실·집중",
+          tip: "훈련·교감하는 날",
+          desc: "서로를 더 잘 이해하며 성장하는 관계입니다. 지금은 약간의 노력이 필요하지만, 꾸준히 교감할수록 신뢰가 깊어집니다. 함께하는 훈련이나 놀이 시간이 이 궁합을 빠르게 끌어올립니다."
+        },
+        {
+          grade: "인연이 싹트는 중", emoji: "🤍", energy: "수(水) 기운",
+          element: "수(水)", keyword: "유연·직관",
+          tip: "조용히 함께하는 날",
+          desc: "물처럼 유연하게 서로에게 스며드는 과정입니다. 아직 완전히 파악하지 못한 서로의 습관이 있지만, 그것이 오히려 매력이 됩니다. 강요 없이 자연스럽게 함께하는 시간이 이 관계를 꽃피웁니다."
+        }
+      ],
+      en: [
+        {
+          grade: "Soulmates", emoji: "💖", energy: "Harmonious",
+          element: "Wood", keyword: "Trust · Growth",
+          tip: "Walk together today",
+          desc: "Your energies nourish each other in a perfect cycle. Your dog feels deeply at ease with you, and you feel a natural calm in their presence. A morning walk together only deepens this bond."
+        },
+        {
+          grade: "Perfect Match", emoji: "💛", energy: "Fire Energy",
+          element: "Fire", keyword: "Vitality · Passion",
+          tip: "Play actively today",
+          desc: "A fiery, active energy pulls you together. Your dog's enthusiasm sparks your own vitality, and your passion flows right back to them. The more you play together, the stronger this bond grows."
+        },
+        {
+          grade: "Great Bond", emoji: "💚", energy: "Earth Energy",
+          element: "Earth", keyword: "Stability · Trust",
+          tip: "Share routines today",
+          desc: "A solid, unwavering trust anchors your relationship. Your dog finds security in your consistent daily rhythms, and you find comfort in their steadfast presence. Regular routines are the heart of this compatibility."
+        },
+        {
+          grade: "Growing Together", emoji: "💙", energy: "Metal Energy",
+          element: "Metal", keyword: "Dedication · Focus",
+          tip: "Train and bond today",
+          desc: "This is a relationship that deepens with effort and understanding. A little patience now leads to a strong bond later. Shared training and play sessions accelerate the growth of your connection."
+        },
+        {
+          grade: "Bond is Blooming", emoji: "🤍", energy: "Water Energy",
+          element: "Water", keyword: "Flexible · Intuitive",
+          tip: "Spend quiet time today",
+          desc: "Like water, you two are gently seeping into each other's lives. There are still habits to discover, but that mystery is part of the charm. Let things unfold naturally — no pressure needed."
+        }
+      ]
+    };
+
+    let currentLang = 'ko';
+    let petImageData = null;
+    let ownerImageData = null;
+
+    function toggleLanguage() {
+      currentLang = currentLang === 'ko' ? 'en' : 'ko';
+      document.getElementById("lang-toggle").textContent = currentLang === 'ko' ? 'English' : '한국어';
+      applyLang();
+    }
+
+    function applyLang() {
+      const t = i18n[currentLang];
+      document.getElementById("title").textContent = t.title;
+      document.getElementById("subtitle").innerHTML = t.subtitle;
+      document.getElementById("label-pet").textContent = t.labelPet;
+      document.getElementById("label-owner").textContent = t.labelOwner;
+      document.getElementById("pet-placeholder-text").textContent = t.petPlaceholder;
+      document.getElementById("owner-placeholder-text").textContent = t.ownerPlaceholder;
+      document.getElementById("analyze-btn-text").textContent = t.analyzeBtn;
+      document.getElementById("loading-text").textContent = t.loadingText;
+      document.getElementById("score-label").textContent = t.scoreLabel;
+      document.getElementById("rc-element-label").textContent = t.rcElementLabel;
+      document.getElementById("rc-energy-label").textContent = t.rcEnergyLabel;
+      document.getElementById("rc-keyword-label").textContent = t.rcKeywordLabel;
+      document.getElementById("rc-tip-label").textContent = t.rcTipLabel;
+      document.getElementById("retry-btn").textContent = t.retryBtn;
+      document.getElementById("nav-lotto").textContent = t.navLotto;
+      document.getElementById("nav-pet").textContent = t.navPet;
+      document.title = t.title;
+    }
+
+    function previewImage(event, type) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const previewEl = document.getElementById(type + "-preview");
+        const placeholderEl = document.getElementById(type + "-placeholder");
+        const removeBtn = document.getElementById(type + "-remove");
+        const dropArea = document.getElementById(type + "-drop-area");
+
+        previewEl.src = e.target.result;
+        previewEl.style.display = "block";
+        placeholderEl.style.display = "none";
+        removeBtn.style.display = "flex";
+        dropArea.classList.add("has-image");
+
+        if (type === 'pet') petImageData = e.target.result;
+        else ownerImageData = e.target.result;
+
+        updateAnalyzeBtn();
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function removeImage(event, type) {
+      event.stopPropagation();
+      const previewEl = document.getElementById(type + "-preview");
+      const placeholderEl = document.getElementById(type + "-placeholder");
+      const removeBtn = document.getElementById(type + "-remove");
+      const dropArea = document.getElementById(type + "-drop-area");
+      const inputEl = document.getElementById(type + "-input");
+
+      previewEl.src = "";
+      previewEl.style.display = "none";
+      placeholderEl.style.display = "flex";
+      removeBtn.style.display = "none";
+      dropArea.classList.remove("has-image");
+      inputEl.value = "";
+
+      if (type === 'pet') petImageData = null;
+      else ownerImageData = null;
+
+      updateAnalyzeBtn();
+    }
+
+    function updateAnalyzeBtn() {
+      const btn = document.getElementById("analyze-btn");
+      btn.disabled = !(petImageData && ownerImageData);
+    }
+
+    function seededRandom(seed) {
+      let x = Math.sin(seed + 1) * 10000;
+      return x - Math.floor(x);
+    }
+
+    function imageToSeed(dataUrl) {
+      let hash = 0;
+      const sample = dataUrl.slice(22, 200);
+      for (let i = 0; i < sample.length; i++) {
+        hash = (hash * 31 + sample.charCodeAt(i)) >>> 0;
+      }
+      return hash;
+    }
+
+    function analyzeCompatibility() {
+      if (!petImageData || !ownerImageData) {
+        alert(i18n[currentLang].alertUpload);
+        return;
+      }
+
+      document.getElementById("upload-form").style.display = "none";
+      document.getElementById("result-section").style.display = "none";
+      document.getElementById("loading-area").style.display = "block";
+
+      setTimeout(() => {
+        const seed1 = imageToSeed(petImageData);
+        const seed2 = imageToSeed(ownerImageData);
+        const combinedSeed = seed1 ^ seed2;
+
+        const score = Math.floor(seededRandom(combinedSeed) * 40) + 60;
+        const resultIndex = Math.floor(seededRandom(combinedSeed + 7) * 5);
+        const result = results[currentLang][resultIndex];
+
+        document.getElementById("result-pet-img").src = petImageData;
+        document.getElementById("result-owner-img").src = ownerImageData;
+
+        const heartEmojis = ["💛", "💚", "💙", "💖", "🧡"];
+        document.getElementById("result-heart").textContent = heartEmojis[resultIndex];
+
+        document.getElementById("score-number").textContent = score;
+        document.getElementById("score-emoji").textContent = result.emoji;
+        document.getElementById("rc-element").textContent = result.element;
+        document.getElementById("rc-energy").textContent = result.energy;
+        document.getElementById("rc-keyword").textContent = result.keyword;
+        document.getElementById("rc-tip").textContent = result.tip;
+
+        const scoreColor = score >= 85 ? "#ef4444" : score >= 75 ? "#f97316" : score >= 65 ? "#facc15" : "#22c55e";
+        document.getElementById("score-number").style.color = scoreColor;
+
+        const gradeText = currentLang === 'ko'
+          ? `<strong style="color:${scoreColor}">${result.grade}</strong> — ${score}점`
+          : `<strong style="color:${scoreColor}">${result.grade}</strong> — ${score} pts`;
+        document.getElementById("result-desc").innerHTML = `${gradeText}<br><br>${result.desc}`;
+
+        document.getElementById("loading-area").style.display = "none";
+        document.getElementById("result-section").style.display = "block";
+
+        requestAnimationFrame(() => {
+          document.getElementById("score-bar").style.width = score + "%";
+        });
+      }, 1800);
+    }
+
+    function resetForm() {
+      petImageData = null;
+      ownerImageData = null;
+
+      ["pet", "owner"].forEach(type => {
+        document.getElementById(type + "-preview").src = "";
+        document.getElementById(type + "-preview").style.display = "none";
+        document.getElementById(type + "-placeholder").style.display = "flex";
+        document.getElementById(type + "-remove").style.display = "none";
+        document.getElementById(type + "-drop-area").classList.remove("has-image");
+        document.getElementById(type + "-input").value = "";
+      });
+
+      document.getElementById("score-bar").style.width = "0%";
+      document.getElementById("result-section").style.display = "none";
+      document.getElementById("upload-form").style.display = "block";
+      updateAnalyzeBtn();
+    }
+
+    window.onload = function() {
+      applyLang();
+    };
+  </script>
 </body>
 </html>
