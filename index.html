@@ -274,8 +274,14 @@
 <body data-theme="dark">
   <div class="wrap">
     <div class="controls">
-      <button class="control-btn" id="lang-toggle" onclick="toggleLanguage()">English</button>
-      <button class="control-btn" id="theme-toggle" onclick="toggleTheme()">☀️ Light Mode</button>
+        <div class="nav-menu">
+            <a href="/index.html" class="nav-btn active" id="nav-lotto">로또 번호 생성</a>
+            <a href="/pet-test.html" class="nav-btn" id="nav-pet">반려동물 궁합</a>
+        </div>
+        <div class="settings-group">
+            <button class="control-btn" id="lang-toggle" onclick="toggleLanguage()">English</button>
+            <button class="control-btn" id="theme-toggle" onclick="toggleTheme()">☀️ Light Mode</button>
+        </div>
     </div>
     <div class="card">
       <h1 id="title">명리 로또 번호 추천기</h1>
@@ -335,6 +341,8 @@
   <script>
     const i18n = {
       ko: {
+        navLotto: "로또 번호 생성",
+        navPet: "반려동물 궁합",
         title: "명리 로또 번호 추천기",
         subtitle: "이름, 생년월일, 날짜를 입력하면<br>그날의 기운을 반영한 명리학 감성 로또 번호 5세트를 추천합니다.",
         labelName: "이름",
@@ -362,6 +370,8 @@
         contactSubmit: "문의 보내기"
       },
       en: {
+        navLotto: "Lotto Generator",
+        navPet: "Pet Compatibility",
         title: "Myeongli Powerball Generator",
         subtitle: "Enter your name and dates to get 5 sets of Powerball numbers<br>based on Myeongli-hak (Asian astrology) fortune vibes.",
         labelName: "Name",
@@ -401,6 +411,8 @@
 
     function updateUI() {
       const t = i18n[currentLang];
+      document.getElementById("nav-lotto").textContent = t.navLotto;
+      document.getElementById("nav-pet").textContent = t.navPet;
       document.getElementById("title-tag").textContent = t.title;
       document.getElementById("title").textContent = t.title;
       document.getElementById("subtitle").innerHTML = t.subtitle;
