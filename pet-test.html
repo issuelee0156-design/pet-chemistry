@@ -250,13 +250,35 @@
       border: 1px solid var(--text-sub);
       border-radius: 14px;
       cursor: pointer;
-      margin-top: 16px;
+      margin-top: 12px;
       transition: all 0.2s;
     }
 
     .retry-btn:hover {
       background: var(--text-sub);
       color: #1e293b;
+    }
+
+    .share-btn {
+      width: 100%;
+      padding: 16px;
+      font-size: 16px;
+      font-weight: bold;
+      background: var(--btn-bg);
+      color: var(--btn-text);
+      border: none;
+      border-radius: 14px;
+      cursor: pointer;
+      transition: transform 0.15s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 24px;
+    }
+
+    .share-btn:hover {
+      transform: translateY(-2px);
     }
 
     .loading-overlay {
@@ -401,6 +423,9 @@
 
         <div class="result-desc" id="result-desc"></div>
 
+        <button class="share-btn" onclick="shareResult()">
+          <span id="share-btn-text">결과 공유하기</span> 🔗
+        </button>
         <button class="retry-btn" id="retry-btn" onclick="resetForm()">다시 테스트하기</button>
       </div>
     </div>
@@ -425,6 +450,10 @@
         rcKeywordLabel: "핵심 키워드",
         rcTipLabel: "오늘의 궁합 팁",
         retryBtn: "다시 테스트하기",
+        shareBtn: "결과 공유하기",
+        shareTitle: "반려동물 궁합 테스트 결과",
+        shareText: "우리 반려동물과 나의 닮은꼴 궁합 점수는 {score}점! 당신도 테스트해보세요!",
+        copyMsg: "링크가 클립보드에 복사되었습니다!",
         alertUpload: "강아지 사진과 주인 얼굴 사진을 모두 업로드해 주세요.",
         navLotto: "로또 번호 생성",
         navPet: "반려동물 궁합"
@@ -445,6 +474,10 @@
         rcKeywordLabel: "Key Word",
         rcTipLabel: "Today's Tip",
         retryBtn: "Try Again",
+        shareBtn: "Share Result",
+        shareTitle: "Pet Compatibility Test Result",
+        shareText: "Our matching score is {score}! Try it yourself!",
+        copyMsg: "Link copied to clipboard!",
         alertUpload: "Please upload both a dog photo and an owner photo.",
         navLotto: "Lotto Generator",
         navPet: "Pet Compatibility"
@@ -544,6 +577,7 @@
       document.getElementById("rc-keyword-label").textContent = t.rcKeywordLabel;
       document.getElementById("rc-tip-label").textContent = t.rcTipLabel;
       document.getElementById("retry-btn").textContent = t.retryBtn;
+      document.getElementById("share-btn-text").textContent = t.shareBtn;
       document.getElementById("nav-lotto").textContent = t.navLotto;
       document.getElementById("nav-pet").textContent = t.navPet;
       document.title = t.title;
@@ -663,6 +697,32 @@
       }, 1800);
     }
 
+    async function shareResult() {
+      const t = i18n[currentLang];
+      const score = document.getElementById("score-number").textContent;
+      const shareData = {
+        title: t.shareTitle,
+        text: t.shareText.replace("{score}", score),
+        url: window.location.href
+      };
+
+      if (navigator.share) {
+        try {
+          await navigator.share(shareData);
+        } catch (err) {
+          console.log("Share failed", err);
+        }
+      } else {
+        const dummy = document.createElement("input");
+        document.body.appendChild(dummy);
+        dummy.value = window.location.href;
+        dummy.select();
+        document.execCommand("copy");
+        document.body.removeChild(dummy);
+        alert(t.copyMsg);
+      }
+    }
+
     function resetForm() {
       petImageData = null;
       ownerImageData = null;
@@ -680,6 +740,18 @@
       document.getElementById("result-section").style.display = "none";
       document.getElementById("upload-form").style.display = "block";
       updateAnalyzeBtn();
+    }
+
+    function toggleTheme() {
+      const body = document.body;
+      const btn = document.getElementById("theme-toggle");
+      if (body.getAttribute("data-theme") === "dark") {
+        body.setAttribute("data-theme", "light");
+        btn.textContent = "🌙 Dark Mode";
+      } else {
+        body.setAttribute("data-theme", "dark");
+        btn.textContent = "☀️ Light Mode";
+      }
     }
 
     window.onload = function() {
