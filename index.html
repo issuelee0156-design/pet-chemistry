@@ -180,15 +180,42 @@
       <p>명리학적 번호 추천은 당첨을 보장하는 과학적 근거가 아닙니다. 하지만 자신의 기운을 살피고 그에 맞는 숫자를 선택하는 과정은 마음의 안정을 돕고 긍정적인 에너지를 불러일으킬 수 있습니다. 가벼운 마음으로 재미있게 서비스를 이용하시길 권장합니다.</p>
     </div>
 
+    <!-- Disqus 댓글 섹션 -->
+    <div class="disqus-section">
+      <h3>💬 댓글</h3>
+      <div id="disqus_thread"></div>
+    </div>
+
     <footer>
       <div class="footer-links">
-        <a href="about.html" id="footer-about">소개</a> | 
-        <a href="terms.html" id="footer-terms">이용약관</a> | 
-        <a href="privacy.html" id="footer-privacy">개인정보처리방침</a> | 
+        <a href="about.html" id="footer-about">소개</a> |
+        <a href="terms.html" id="footer-terms">이용약관</a> |
+        <a href="privacy.html" id="footer-privacy">개인정보처리방침</a> |
         <a href="#contact-title" id="footer-contact">제휴문의</a>
       </div>
       <p>© <span id="footer-year"></span> 명리 로또 &amp; 반려동물 궁합. All rights reserved.</p>
     </footer>
+
+    <script>
+      // ──────────────────────────────────────────────
+      // Disqus 설정
+      // 1. disqus.com 에서 사이트 등록 후 shortname 확인
+      // 2. 아래 'YOUR-SHORTNAME' 을 본인의 Disqus shortname으로 교체
+      // ──────────────────────────────────────────────
+      var DISQUS_SHORTNAME = 'YOUR-SHORTNAME';
+
+      var disqus_config = function () {
+        this.page.url = window.location.href;
+        this.page.identifier = 'lotto-index';
+      };
+      (function() {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://' + DISQUS_SHORTNAME + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+      })();
+    </script>
+    <noscript>댓글을 보시려면 JavaScript를 활성화해 주세요.</noscript>
   </div>
 
   <script src="i18n.js"></script>

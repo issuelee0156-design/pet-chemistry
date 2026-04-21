@@ -125,13 +125,51 @@ const i18n = {
     privacyContent: `
       <p>본 사이트는 사용자의 개인정보를 소중히 다루며, 관련 법령을 준수합니다.</p>
       <h3>1. 수집하는 개인정보 항목</h3>
-      <p>서비스 이용 과정에서 이름, 생년월일, 성별, 반려동물 및 사용자의 사진 등이 입력될 수 있습니다.</p>
+      <p>서비스 이용 과정에서 이름, 생년월일, 반려동물 및 사용자의 사진 등이 입력될 수 있습니다.</p>
       <h3>2. 개인정보의 수집 및 이용 목적</h3>
       <p>입력된 정보는 오행 및 수리 계산 알고리즘을 통한 결과 도출을 위해 실시간으로 사용됩니다. 결과 도출 즉시 휘발되며 별도의 데이터베이스에 저장되지 않습니다.</p>
-      <h3>3. 구글 애드센스 및 쿠키 이용</h3>
-      <p>본 사이트는 광고 게재를 위해 구글 애드센스를 사용하며, 사용자 맞춤형 광고 제공을 위해 쿠키를 활용할 수 있습니다. 사용자는 브라우저 설정에서 쿠키 수집을 거부할 수 있습니다.</p>
+      <h3>3. 개인정보의 보유 및 이용 기간</h3>
+      <p>사이트는 사용자의 개인정보를 서버에 저장하지 않으며, 입력된 모든 데이터는 브라우저 세션 내에서만 처리됩니다.</p>
       <h3>4. 제3자 제공 및 위탁</h3>
-      <p>사이트는 원칙적으로 사용자의 개인정보를 외부에 제공하거나 저장하지 않습니다.</p>
+      <p>사이트는 원칙적으로 사용자의 개인정보를 외부에 제공하거나 저장하지 않습니다. 단, 아래 명시된 제3자 서비스 이용 과정에서 해당 서비스의 정책에 따라 일부 데이터가 처리될 수 있습니다.</p>
+
+      <h2 style="margin-top:32px;">이용 중인 제3자 서비스</h2>
+      <p>본 사이트는 서비스 품질 향상을 위해 아래의 외부 서비스를 이용합니다. 각 서비스가 무엇인지, 어떤 데이터를 처리하는지 안내드립니다.</p>
+
+      <div class="third-party-grid">
+        <div class="third-party-card">
+          <div class="service-header">
+            <span class="service-icon">📢</span>
+            <span class="service-name">Google AdSense</span>
+            <span class="service-tag">광고</span>
+          </div>
+          <p>구글이 운영하는 광고 네트워크 서비스입니다. 사용자의 관심사 및 브라우징 기록을 기반으로 맞춤형 광고를 표시하며, 이를 위해 쿠키와 유사 기술을 사용합니다. 광고 관련 데이터는 Google의 개인정보처리방침에 따라 처리됩니다. Google 광고 설정 페이지에서 맞춤 광고를 비활성화할 수 있습니다.</p>
+        </div>
+        <div class="third-party-card">
+          <div class="service-header">
+            <span class="service-icon">✉️</span>
+            <span class="service-name">Formspree</span>
+            <span class="service-tag">폼 처리</span>
+          </div>
+          <p>웹사이트 문의 폼의 데이터 전송을 처리하는 서비스입니다. 제휴 문의 양식을 제출하면 입력하신 이름·이메일·메시지가 Formspree 서버를 경유하여 사이트 운영자에게 전달됩니다. 전송된 데이터는 Formspree의 개인정보처리방침에 따라 관리됩니다.</p>
+        </div>
+        <div class="third-party-card">
+          <div class="service-header">
+            <span class="service-icon">💬</span>
+            <span class="service-name">Disqus</span>
+            <span class="service-tag">댓글</span>
+          </div>
+          <p>외부 댓글 시스템을 제공하는 서비스입니다. 댓글 작성 시 Disqus 계정 또는 소셜 로그인이 필요하며, 작성된 댓글과 관련 정보는 Disqus 서버에 저장됩니다. Disqus는 서비스 개선 및 광고 목적으로 쿠키와 사용자 행동 데이터를 수집할 수 있습니다.</p>
+        </div>
+        <div class="third-party-card">
+          <div class="service-header">
+            <span class="service-icon">🤖</span>
+            <span class="service-name">Google Teachable Machine</span>
+            <span class="service-tag">AI 분석</span>
+          </div>
+          <p>구글이 제공하는 머신러닝 기반 이미지 분류 서비스입니다. 반려동물 궁합 테스트에서 업로드된 사진을 분석하는 데 활용됩니다. 이미지 처리는 사용자의 브라우저 내에서만 수행되며 외부 서버로 전송되지 않습니다. 단, AI 모델 파일은 Google 서버에서 불러옵니다.</p>
+        </div>
+      </div>
     `
   },
   en: {
@@ -260,13 +298,51 @@ const i18n = {
     privacyContent: `
       <p>This Site values your personal information and complies with relevant laws.</p>
       <h3>1. Items of Personal Information Collected</h3>
-      <p>Names, birth dates, gender, photos of pets and users, etc., may be entered during the service use process.</p>
+      <p>Names, birth dates, photos of pets and users, etc., may be entered during the service use process.</p>
       <h3>2. Purpose of Collection and Use</h3>
       <p>The entered information is used in real-time to derive results through Five Element and numerical calculation algorithms. It is discarded immediately after the result is generated and is not stored in a separate database.</p>
-      <h3>3. Google AdSense and Cookies</h3>
-      <p>This Site uses Google AdSense to display advertisements and may use cookies to provide personalized ads. Users can refuse cookie collection in their browser settings.</p>
+      <h3>3. Retention Period</h3>
+      <p>This Site does not store personal information on its servers. All entered data is processed only within the browser session.</p>
       <h3>4. Third-Party Provision and Entrustment</h3>
-      <p>In principle, the Site does not provide or store user's personal information externally.</p>
+      <p>In principle, the Site does not provide or store user's personal information externally. However, data may be processed according to the policies of the third-party services listed below.</p>
+
+      <h2 style="margin-top:32px;">Third-Party Services in Use</h2>
+      <p>This Site uses the following external services to enhance service quality. Below is an explanation of each service and what data it processes.</p>
+
+      <div class="third-party-grid">
+        <div class="third-party-card">
+          <div class="service-header">
+            <span class="service-icon">📢</span>
+            <span class="service-name">Google AdSense</span>
+            <span class="service-tag">Ads</span>
+          </div>
+          <p>An advertising network service operated by Google. It displays personalized ads based on user interests and browsing history, using cookies and similar technologies for this purpose. Ad-related data is processed under Google's Privacy Policy. You can disable personalized ads on the Google Ads settings page.</p>
+        </div>
+        <div class="third-party-card">
+          <div class="service-header">
+            <span class="service-icon">✉️</span>
+            <span class="service-name">Formspree</span>
+            <span class="service-tag">Form</span>
+          </div>
+          <p>A service that handles form submission data from websites. When you submit a partnership inquiry form, your name, email, and message are relayed to the site operator via Formspree's servers. Submitted data is managed under Formspree's Privacy Policy.</p>
+        </div>
+        <div class="third-party-card">
+          <div class="service-header">
+            <span class="service-icon">💬</span>
+            <span class="service-name">Disqus</span>
+            <span class="service-tag">Comments</span>
+          </div>
+          <p>A third-party comment system service. Leaving a comment requires a Disqus account or social login, and all comment data is stored on Disqus servers. Disqus may collect cookies and user behavior data for service improvement and advertising purposes.</p>
+        </div>
+        <div class="third-party-card">
+          <div class="service-header">
+            <span class="service-icon">🤖</span>
+            <span class="service-name">Google Teachable Machine</span>
+            <span class="service-tag">AI</span>
+          </div>
+          <p>A machine learning-based image classification service provided by Google. It is used to analyze uploaded photos in the Pet Compatibility Test. Image processing is performed entirely within the user's browser and is not transmitted to external servers. The AI model file itself is loaded from Google's servers.</p>
+        </div>
+      </div>
     `
   }
 };

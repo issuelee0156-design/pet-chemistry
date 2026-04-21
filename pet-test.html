@@ -9,6 +9,9 @@
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5355669932210627" crossorigin="anonymous"></script>
   <title id="title-tag">반려동물 궁합 테스트</title>
   <link rel="stylesheet" href="style.css" />
+  <!-- Google Teachable Machine (TensorFlow.js 기반 이미지 분류 AI) -->
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.21.0/dist/tf.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@0.8/dist/teachablemachine-image.min.js"></script>
   <style>
     .upload-section {
       display: grid;
@@ -293,15 +296,42 @@
       <p>반려동물과의 인연은 고정된 것이 아니라 함께 시간을 보내며 만들어가는 것입니다. 오행의 흐름을 이해함으로써 우리는 반려동물의 상태를 더 깊이 이해하고, 더 건강하고 행복한 관계를 유지할 수 있는 지혜를 얻을 수 있습니다. 재미있는 테스트를 통해 오늘 하루 우리 아이에게 어떤 기운이 필요한지 살펴보세요.</p>
     </div>
 
+    <!-- Disqus 댓글 섹션 -->
+    <div class="disqus-section">
+      <h3 id="disqus-title">💬 댓글</h3>
+      <div id="disqus_thread"></div>
+    </div>
+
     <footer>
       <div class="footer-links">
-        <a href="about.html" id="footer-about">소개</a> | 
-        <a href="terms.html" id="footer-terms">이용약관</a> | 
-        <a href="privacy.html" id="footer-privacy">개인정보처리방침</a> | 
+        <a href="about.html" id="footer-about">소개</a> |
+        <a href="terms.html" id="footer-terms">이용약관</a> |
+        <a href="privacy.html" id="footer-privacy">개인정보처리방침</a> |
         <a href="index.html#contact-title" id="footer-contact">제휴문의</a>
       </div>
       <p>© <span id="footer-year"></span> 명리 로또 &amp; 반려동물 궁합. All rights reserved.</p>
     </footer>
+
+    <script>
+      // ──────────────────────────────────────────────
+      // Disqus 설정
+      // 1. disqus.com 에서 사이트 등록 후 shortname 확인
+      // 2. 아래 'YOUR-SHORTNAME' 을 본인의 Disqus shortname으로 교체
+      // ──────────────────────────────────────────────
+      var DISQUS_SHORTNAME = 'YOUR-SHORTNAME';
+
+      var disqus_config = function () {
+        this.page.url = window.location.href;
+        this.page.identifier = 'pet-test';
+      };
+      (function() {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://' + DISQUS_SHORTNAME + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+      })();
+    </script>
+    <noscript>댓글을 보시려면 JavaScript를 활성화해 주세요.</noscript>
   </div>
 
   <script src="i18n.js"></script>
@@ -324,8 +354,39 @@
       ]
     };
 
+    // ──────────────────────────────────────────────
+    // Google Teachable Machine 설정
+    // 1. teachablemachine.withgoogle.com 에서 모델 훈련
+    // 2. 모델 배포 후 공유 URL을 아래에 붙여넣기
+    // 예: "https://teachablemachine.withgoogle.com/models/XXXXXXXX/"
+    // null 이면 기존 알고리즘으로 자동 대체됨
+    const TM_MODEL_URL = null;
+    // ──────────────────────────────────────────────
+
+    let tmModel = null;
     let petImageData = null;
     let ownerImageData = null;
+
+    async function loadTMModel() {
+      if (!TM_MODEL_URL || typeof tmImage === 'undefined') return;
+      try {
+        tmModel = await tmImage.load(TM_MODEL_URL + 'model.json', TM_MODEL_URL + 'metadata.json');
+        console.log('Teachable Machine 모델 로드 완료, 클래스:', tmModel.getClassLabels());
+      } catch (e) {
+        console.warn('TM 모델 로드 실패, 기본 알고리즘 사용:', e.message);
+      }
+    }
+
+    async function getTMPrediction(imgEl) {
+      if (!tmModel) return null;
+      try {
+        const predictions = await tmModel.predict(imgEl);
+        const top = predictions.reduce((a, b) => a.probability > b.probability ? a : b);
+        return { classIndex: predictions.indexOf(top), confidence: top.probability };
+      } catch (e) {
+        return null;
+      }
+    }
 
     function updatePageUI() {
       const t = i18n[currentLang];
@@ -408,7 +469,7 @@
       return hash;
     }
 
-    function analyzeCompatibility() {
+    async function analyzeCompatibility() {
       if (!petImageData || !ownerImageData) {
         alert(i18n[currentLang].alertUpload);
         return;
@@ -417,12 +478,26 @@
       document.getElementById("result-section").style.display = "none";
       document.getElementById("loading-area").style.display = "block";
 
+      const seed1 = imageToSeed(petImageData);
+      const seed2 = imageToSeed(ownerImageData);
+      const combinedSeed = seed1 ^ seed2;
+
+      // Teachable Machine 예측 시도 (모델 URL이 설정된 경우)
+      let resultIndex = Math.floor(seededRandom(combinedSeed + 7) * 5);
+      let score = Math.floor(seededRandom(combinedSeed) * 40) + 60;
+      let usedAI = false;
+
+      const petImg = document.getElementById("pet-preview");
+      const tmPrediction = await getTMPrediction(petImg);
+      if (tmPrediction) {
+        // TM 모델 클래스 인덱스를 결과 인덱스로 매핑
+        resultIndex = tmPrediction.classIndex % 5;
+        // 신뢰도(0~1)를 점수(60~99)로 변환
+        score = Math.round(60 + tmPrediction.confidence * 39);
+        usedAI = true;
+      }
+
       setTimeout(() => {
-        const seed1 = imageToSeed(petImageData);
-        const seed2 = imageToSeed(ownerImageData);
-        const combinedSeed = seed1 ^ seed2;
-        const score = Math.floor(seededRandom(combinedSeed) * 40) + 60;
-        const resultIndex = Math.floor(seededRandom(combinedSeed + 7) * 5);
         const result = results[currentLang][resultIndex];
 
         document.getElementById("result-pet-img").src = petImageData;
@@ -438,8 +513,14 @@
 
         const scoreColor = score >= 85 ? "#ef4444" : score >= 75 ? "#f97316" : score >= 65 ? "#facc15" : "#22c55e";
         document.getElementById("score-number").style.color = scoreColor;
-        const gradeText = currentLang === 'ko' ? `<strong style="color:${scoreColor}">${result.grade}</strong> — ${score}점` : `<strong style="color:${scoreColor}">${result.grade}</strong> — ${score} pts`;
-        document.getElementById("result-desc").innerHTML = `${gradeText}<br><br>${result.desc}`;
+
+        const aiBadge = usedAI
+          ? `<span class="tm-badge">🤖 AI 분석 적용됨</span><br>`
+          : '';
+        const gradeText = currentLang === 'ko'
+          ? `<strong style="color:${scoreColor}">${result.grade}</strong> — ${score}점`
+          : `<strong style="color:${scoreColor}">${result.grade}</strong> — ${score} pts`;
+        document.getElementById("result-desc").innerHTML = `${aiBadge}${gradeText}<br><br>${result.desc}`;
 
         document.getElementById("loading-area").style.display = "none";
         document.getElementById("result-section").style.display = "block";
@@ -483,6 +564,7 @@
     window.onload = function() {
       document.getElementById("footer-year").textContent = new Date().getFullYear();
       updatePageUI();
+      loadTMModel();
     };
   </script>
 </body>

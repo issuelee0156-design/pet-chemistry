@@ -180,6 +180,79 @@ footer {
   text-decoration: underline;
 }
 
+.third-party-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin: 20px 0;
+}
+
+.third-party-card {
+  background: var(--card-bg);
+  border: 1px solid var(--analysis-bg);
+  border-radius: 16px;
+  padding: 20px;
+}
+
+.third-party-card .service-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.third-party-card .service-icon {
+  font-size: 24px;
+}
+
+.third-party-card .service-name {
+  font-weight: bold;
+  font-size: 16px;
+  color: var(--set-title-color);
+}
+
+.third-party-card .service-tag {
+  display: inline-block;
+  font-size: 11px;
+  background: var(--btn-bg);
+  color: var(--btn-text);
+  padding: 2px 8px;
+  border-radius: 999px;
+  margin-left: auto;
+}
+
+.third-party-card p {
+  font-size: 14px;
+  color: var(--text-sub);
+  line-height: 1.7;
+  margin: 0;
+}
+
+.disqus-section {
+  margin-top: 40px;
+  padding-top: 32px;
+  border-top: 1px solid var(--analysis-bg);
+}
+
+.disqus-section h3 {
+  font-size: 18px;
+  color: var(--set-title-color);
+  margin-bottom: 16px;
+}
+
+.tm-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(59, 130, 246, 0.15);
+  border: 1px solid rgba(59, 130, 246, 0.4);
+  color: #93c5fd;
+  font-size: 12px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  margin-bottom: 12px;
+}
+
 @media (max-width: 760px) {
   h1 {
     font-size: 28px;
@@ -189,10 +262,14 @@ footer {
     flex-wrap: wrap;
     justify-content: center;
   }
-  
+
   .nav-menu {
     width: 100%;
     justify-content: center;
     margin-bottom: 10px;
+  }
+
+  .third-party-grid {
+    grid-template-columns: 1fr;
   }
 }
