@@ -1,14 +1,431 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="ko">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Hello World</title>
-  <link href='/style.css' rel='stylesheet'>
+  <title>명리 로또 번호 추천기</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Malgun Gothic", "Apple SD Gothic Neo", sans-serif;
+      background: linear-gradient(135deg, #0f172a, #1e293b);
+      color: #ffffff;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .wrap {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 24px;
+      padding: 28px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+      backdrop-filter: blur(10px);
+    }
+
+    h1 {
+      margin: 0 0 10px;
+      font-size: 34px;
+      text-align: center;
+    }
+
+    .sub {
+      text-align: center;
+      color: #cbd5e1;
+      margin-bottom: 28px;
+      line-height: 1.6;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .field.full {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      font-weight: bold;
+      color: #e2e8f0;
+    }
+
+    input, button {
+      border: none;
+      border-radius: 14px;
+      padding: 14px 16px;
+      font-size: 16px;
+    }
+
+    input {
+      background: rgba(255,255,255,0.92);
+      color: #111827;
+    }
+
+    button {
+      width: 100%;
+      margin-top: 10px;
+      background: #facc15;
+      color: #111827;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.15s ease;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+    }
+
+    .analysis {
+      margin-top: 24px;
+      background: rgba(255,255,255,0.06);
+      border-radius: 18px;
+      padding: 18px;
+      line-height: 1.7;
+      color: #e5e7eb;
+    }
+
+    .result-area {
+      margin-top: 24px;
+      display: grid;
+      gap: 18px;
+    }
+
+    .set-card {
+      background: rgba(255,255,255,0.06);
+      border-radius: 18px;
+      padding: 18px;
+    }
+
+    .set-title {
+      font-weight: bold;
+      margin-bottom: 12px;
+      color: #fde68a;
+    }
+
+    .numbers {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .ball {
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 18px;
+      color: #fff;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.25);
+    }
+
+    .bonus {
+      background: #111827 !important;
+      border: 2px solid #fff;
+    }
+
+    .plus {
+      font-size: 22px;
+      font-weight: bold;
+      color: #fff;
+      margin: 0 4px;
+    }
+
+    .color1 { background: #f59e0b; }
+    .color2 { background: #3b82f6; }
+    .color3 { background: #ef4444; }
+    .color4 { background: #22c55e; }
+    .color5 { background: #8b5cf6; }
+
+    .footer-note {
+      margin-top: 18px;
+      font-size: 14px;
+      color: #cbd5e1;
+      line-height: 1.6;
+    }
+
+    @media (max-width: 760px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      h1 {
+        font-size: 28px;
+      }
+
+      .ball {
+        width: 48px;
+        height: 48px;
+        font-size: 16px;
+      }
+    }
+  </style>
 </head>
 <body>
-  <h1>Hello, world!</h1>
-  <button onclick="console.log('hello');">Press me</button>
-  <script defer type="text/javascript" src="/main.js"></script>
+  <div class="wrap">
+    <div class="card">
+      <h1>명리 로또 번호 추천기</h1>
+      <div class="sub">
+        이름, 생년월일, 날짜를 입력하면<br>
+        그날의 기운을 반영한 명리학 감성 로또 번호 5세트를 추천합니다.
+      </div>
+
+      <div class="grid">
+        <div class="field full">
+          <label for="username">이름</label>
+          <input type="text" id="username" placeholder="이름을 입력하세요" />
+        </div>
+
+        <div class="field">
+          <label for="birthdate">생년월일</label>
+          <input type="date" id="birthdate" />
+        </div>
+
+        <div class="field">
+          <label for="targetDate">운세를 볼 날짜</label>
+          <input type="date" id="targetDate" />
+        </div>
+      </div>
+
+      <button onclick="generateFortuneLotto()">이름 반영 로또 번호 추천받기</button>
+
+      <div id="analysis" class="analysis" style="display:none;"></div>
+      <div id="resultArea" class="result-area"></div>
+
+      <div class="footer-note">
+        이 페이지는 이름과 날짜를 숫자 흐름으로 변환해 명리학적 분위기를 더한 번호 추천 도구다.
+        실제 당첨 예측기가 아니라 재미와 개인화 요소를 결합한 형태로 보면 된다.
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function getBallColor(number) {
+      if (number <= 10) return "color1";
+      if (number <= 20) return "color2";
+      if (number <= 30) return "color3";
+      if (number <= 40) return "color4";
+      return "color5";
+    }
+
+    function pad(n) {
+      return String(n).padStart(2, "0");
+    }
+
+    function seededRandom(seed) {
+      let x = Math.sin(seed) * 10000;
+      return x - Math.floor(x);
+    }
+
+    function getNameValue(name) {
+      let total = 0;
+      let chars = [];
+
+      for (let i = 0; i < name.length; i++) {
+        const code = name.charCodeAt(i);
+        const value = (code % 45) + 1;
+        total += value;
+        chars.push(value);
+      }
+
+      return {
+        total,
+        chars,
+        length: name.length
+      };
+    }
+
+    function getElementScores(year, month, day, targetYear, targetMonth, targetDay, nameValue) {
+      const wood = ((year % 10) + month + (targetMonth * 2) + (nameValue.total % 7)) % 9 + 1;
+      const fire = ((day % 10) + targetDay + Math.floor(targetYear / 100) + (nameValue.length * 2)) % 9 + 1;
+      const earth = ((month + day + targetMonth + targetDay + (nameValue.total % 9))) % 9 + 1;
+      const metal = ((Math.floor(year / 10) + Math.floor(targetYear / 10) + month + (nameValue.total % 5))) % 9 + 1;
+      const water = ((year + day + targetYear + targetDay + (nameValue.total % 11))) % 9 + 1;
+
+      return { wood, fire, earth, metal, water };
+    }
+
+    function getStrongElement(scores) {
+      const entries = [
+        ["목", scores.wood],
+        ["화", scores.fire],
+        ["토", scores.earth],
+        ["금", scores.metal],
+        ["수", scores.water]
+      ];
+
+      entries.sort((a, b) => b[1] - a[1]);
+      return entries[0][0];
+    }
+
+    function getLuckyNumberBases(scores, y, m, d, ty, tm, td, nameValue) {
+      const total = y + m + d + ty + tm + td + nameValue.total;
+      const nameMain = nameValue.total % 45 || 45;
+      const nameSub = (nameValue.chars.reduce((a, b) => a + b, 0) * nameValue.length) % 45 || 45;
+
+      const bases = [];
+      bases.push((scores.wood * 3 + nameMain) % 45 || 45);
+      bases.push((scores.fire * 5 + nameSub) % 45 || 45);
+      bases.push((scores.earth * 7 + nameValue.length) % 45 || 45);
+      bases.push((scores.metal * 9 + nameMain + nameValue.length) % 45 || 45);
+      bases.push((scores.water * 11 + nameSub) % 45 || 45);
+      bases.push((total % 45) || 45);
+      bases.push(((y + ty + nameValue.total) % 45) || 45);
+      bases.push(((m * d + tm * td + nameValue.length) % 45) || 45);
+
+      return [...new Set(bases)];
+    }
+
+    function createFortuneSeed(y, m, d, ty, tm, td, setIndex, nameValue) {
+      return (
+        y * 1000003 +
+        m * 10007 +
+        d * 101 +
+        ty * 97 +
+        tm * 31 +
+        td * 13 +
+        setIndex * 7919 +
+        nameValue.total * 181 +
+        nameValue.length * 59
+      );
+    }
+
+    function createFortuneSet(y, m, d, ty, tm, td, scores, setIndex, nameValue) {
+      const luckyBases = getLuckyNumberBases(scores, y, m, d, ty, tm, td, nameValue);
+      const numbersSet = new Set();
+
+      luckyBases.forEach((num, idx) => {
+        if (numbersSet.size < 2) {
+          let adjusted = ((num + setIndex * (idx + 2) + nameValue.length) % 45);
+          adjusted = adjusted === 0 ? 45 : adjusted;
+          numbersSet.add(adjusted);
+        }
+      });
+
+      let seed = createFortuneSeed(y, m, d, ty, tm, td, setIndex, nameValue);
+
+      while (numbersSet.size < 6) {
+        seed += 17;
+        let num = Math.floor(seededRandom(seed) * 45) + 1;
+        numbersSet.add(num);
+      }
+
+      const numbers = [...numbersSet].sort((a, b) => a - b);
+
+      let bonus;
+      do {
+        seed += 29;
+        bonus = Math.floor(seededRandom(seed) * 45) + 1;
+      } while (numbers.includes(bonus));
+
+      return { numbers, bonus };
+    }
+
+    function generateFortuneLotto() {
+      const username = document.getElementById("username").value.trim();
+      const birthdate = document.getElementById("birthdate").value;
+      const targetDate = document.getElementById("targetDate").value;
+      const resultArea = document.getElementById("resultArea");
+      const analysis = document.getElementById("analysis");
+
+      if (!username || !birthdate || !targetDate) {
+        alert("이름, 생년월일, 날짜를 모두 입력해 주세요.");
+        return;
+      }
+
+      const [y, m, d] = birthdate.split("-").map(Number);
+      const [ty, tm, td] = targetDate.split("-").map(Number);
+
+      const nameValue = getNameValue(username);
+      const scores = getElementScores(y, m, d, ty, tm, td, nameValue);
+      const strongElement = getStrongElement(scores);
+
+      let fortuneText = "";
+      if (strongElement === "목") {
+        fortuneText = "성장과 확장의 기운이 강하다. 새로운 선택과 넓혀가는 흐름이 강조되는 날이다.";
+      } else if (strongElement === "화") {
+        fortuneText = "활동성과 추진력이 살아난다. 빠른 판단과 강한 실행력이 잘 맞는 흐름이다.";
+      } else if (strongElement === "토") {
+        fortuneText = "균형과 안정의 기운이 중심이다. 무리한 승부보다 중심을 잡는 감각이 중요하다.";
+      } else if (strongElement === "금") {
+        fortuneText = "정리와 선별의 기운이 강하다. 숫자를 압축하고 집중하는 흐름이 어울린다.";
+      } else {
+        fortuneText = "직관과 유연함의 기운이 강하다. 감각적으로 흐름을 읽는 방향이 잘 맞는다.";
+      }
+
+      analysis.style.display = "block";
+      analysis.innerHTML = `
+        <strong>명리 해석 요약</strong><br>
+        이름 <strong>${username}</strong> 의 수리값 합은 <strong>${nameValue.total}</strong>, 글자 수는 <strong>${nameValue.length}</strong>로 반영되었다.<br>
+        선택한 날짜 기준 오행 흐름은 목(${scores.wood}) · 화(${scores.fire}) · 토(${scores.earth}) · 금(${scores.metal}) · 수(${scores.water}) 로 계산되었다.<br>
+        오늘의 중심 기운은 <strong>${strongElement}</strong>이며, ${fortuneText}
+      `;
+
+      resultArea.innerHTML = "";
+
+      for (let i = 1; i <= 5; i++) {
+        const set = createFortuneSet(y, m, d, ty, tm, td, scores, i, nameValue);
+
+        const card = document.createElement("div");
+        card.className = "set-card";
+
+        const title = document.createElement("div");
+        title.className = "set-title";
+        title.textContent = `${i}번 추천 세트`;
+
+        const numbersDiv = document.createElement("div");
+        numbersDiv.className = "numbers";
+
+        set.numbers.forEach(num => {
+          const ball = document.createElement("div");
+          ball.className = `ball ${getBallColor(num)}`;
+          ball.textContent = num;
+          numbersDiv.appendChild(ball);
+        });
+
+        const plus = document.createElement("div");
+        plus.className = "plus";
+        plus.textContent = "+";
+
+        const bonusBall = document.createElement("div");
+        bonusBall.className = "ball bonus";
+        bonusBall.textContent = set.bonus;
+
+        numbersDiv.appendChild(plus);
+        numbersDiv.appendChild(bonusBall);
+
+        card.appendChild(title);
+        card.appendChild(numbersDiv);
+        resultArea.appendChild(card);
+      }
+    }
+
+    window.onload = function () {
+      const today = new Date();
+      const todayStr = `${today.getFullYear()}-${pad(today.getMonth() + 1)}-${pad(today.getDate())}`;
+      document.getElementById("targetDate").value = todayStr;
+    };
+  </script>
 </body>
 </html>
