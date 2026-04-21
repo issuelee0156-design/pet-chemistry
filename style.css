@@ -11,6 +11,7 @@
   --analysis-bg: rgba(255, 255, 255, 0.06);
   --set-title-color: #fde68a;
   --shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+  --footer-bg: rgba(15, 23, 42, 0.8);
 }
 
 [data-theme="light"] {
@@ -26,6 +27,7 @@
   --analysis-bg: #f1f5f9;
   --set-title-color: #1e40af;
   --shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  --footer-bg: rgba(226, 232, 240, 0.8);
 }
 
 * {
@@ -45,7 +47,7 @@ body {
 .wrap {
   max-width: 980px;
   margin: 0 auto;
-  padding: 24px;
+  padding: 24px 24px 100px 24px; /* Added bottom padding for footer */
 }
 
 .controls {
@@ -119,6 +121,17 @@ h1 {
   text-align: center;
 }
 
+h2 {
+  font-size: 24px;
+  margin: 30px 0 15px;
+  color: var(--set-title-color);
+}
+
+h3 {
+  font-size: 18px;
+  margin: 20px 0 10px;
+}
+
 .sub {
   text-align: center;
   color: var(--text-sub);
@@ -132,6 +145,41 @@ h1 {
   font-size: 16px;
 }
 
+.seo-section {
+  margin-top: 50px;
+  padding-top: 30px;
+  border-top: 1px solid var(--analysis-bg);
+  line-height: 1.8;
+}
+
+.seo-section p {
+  margin-bottom: 15px;
+}
+
+footer {
+  margin-top: 60px;
+  text-align: center;
+  padding: 30px 20px;
+  background: var(--footer-bg);
+  border-radius: 20px;
+  font-size: 14px;
+  color: var(--text-sub);
+}
+
+.footer-links {
+  margin-bottom: 15px;
+}
+
+.footer-links a {
+  color: var(--text-main);
+  text-decoration: none;
+  margin: 0 10px;
+}
+
+.footer-links a:hover {
+  text-decoration: underline;
+}
+
 @media (max-width: 760px) {
   h1 {
     font-size: 28px;
@@ -139,5 +187,12 @@ h1 {
 
   .controls {
     flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .nav-menu {
+    width: 100%;
+    justify-content: center;
+    margin-bottom: 10px;
   }
 }

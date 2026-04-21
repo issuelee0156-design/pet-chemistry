@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title id="title-tag">이용약관 - 명리 로또 & 반려동물 궁합</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body data-theme="dark">
+  <div class="wrap">
+    <div class="controls">
+      <div class="nav-menu">
+        <a href="index.html" class="nav-btn" id="nav-lotto">로또 번호 생성</a>
+        <a href="pet-test.html" class="nav-btn" id="nav-pet">반려동물 궁합</a>
+        <a href="about.html" class="nav-btn" id="nav-about">소개</a>
+      </div>
+      <div class="settings-group">
+        <button class="control-btn" id="theme-toggle" onclick="toggleTheme()">☀️ Light Mode</button>
+        <button class="control-btn" id="lang-toggle" onclick="toggleLanguage()">English</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h1 id="page-title">이용약관</h1>
+      <div id="page-content" class="main-content">
+        <!-- Content will be injected by i18n -->
+      </div>
+    </div>
+
+    <footer>
+      <div class="footer-links">
+        <a href="about.html" id="footer-about">소개</a> | 
+        <a href="terms.html" id="footer-terms">이용약관</a> | 
+        <a href="privacy.html" id="footer-privacy">개인정보처리방침</a> | 
+        <a href="index.html#contact-title" id="footer-contact">제휴문의</a>
+      </div>
+      <p>© 2024 명리 로또 & 반려동물 궁합. All rights reserved.</p>
+    </footer>
+  </div>
+
+  <script src="i18n.js"></script>
+  <script src="main.js"></script>
+  <script>
+    function updatePageUI() {
+      const t = i18n[currentLang];
+      document.getElementById("title-tag").textContent = t.termsTitle + " - " + t.lottoTitle;
+      document.getElementById("page-title").textContent = t.termsTitle;
+      document.getElementById("page-content").innerHTML = t.termsContent;
+    }
+    window.addEventListener('DOMContentLoaded', () => {
+      updatePageUI();
+    });
+  </script>
+</body>
+</html>
