@@ -3,8 +3,38 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>명리 로또 번호 추천기</title>
+  <title id="title-tag">명리 로또 번호 추천기</title>
   <style>
+    :root {
+      --bg-gradient: linear-gradient(135deg, #0f172a, #1e293b);
+      --card-bg: rgba(255, 255, 255, 0.08);
+      --text-main: #ffffff;
+      --text-sub: #cbd5e1;
+      --input-bg: rgba(255, 255, 255, 0.92);
+      --input-text: #111827;
+      --btn-bg: #facc15;
+      --btn-text: #111827;
+      --label-color: #e2e8f0;
+      --analysis-bg: rgba(255, 255, 255, 0.06);
+      --set-title-color: #fde68a;
+      --shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+    }
+
+    [data-theme="light"] {
+      --bg-gradient: linear-gradient(135deg, #f1f5f9, #e2e8f0);
+      --card-bg: #ffffff;
+      --text-main: #1e293b;
+      --text-sub: #475569;
+      --input-bg: #f8fafc;
+      --input-text: #1e293b;
+      --btn-bg: #2563eb;
+      --btn-text: #ffffff;
+      --label-color: #334155;
+      --analysis-bg: #f1f5f9;
+      --set-title-color: #1e40af;
+      --shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+
     * {
       box-sizing: border-box;
     }
@@ -12,10 +42,11 @@
     body {
       margin: 0;
       font-family: "Malgun Gothic", "Apple SD Gothic Neo", sans-serif;
-      background: linear-gradient(135deg, #0f172a, #1e293b);
-      color: #ffffff;
+      background: var(--bg-gradient);
+      color: var(--text-main);
       min-height: 100vh;
       padding: 20px;
+      transition: background 0.3s, color 0.3s;
     }
 
     .wrap {
@@ -24,11 +55,34 @@
       padding: 24px;
     }
 
+    .controls {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .control-btn {
+      background: var(--card-bg);
+      color: var(--text-main);
+      border: 1px solid var(--text-sub);
+      padding: 8px 12px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: all 0.2s;
+    }
+
+    .control-btn:hover {
+      background: var(--text-sub);
+      color: var(--bg-gradient);
+    }
+
     .card {
-      background: rgba(255, 255, 255, 0.08);
+      background: var(--card-bg);
       border-radius: 24px;
       padding: 28px;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+      box-shadow: var(--shadow);
       backdrop-filter: blur(10px);
     }
 
@@ -40,7 +94,7 @@
 
     .sub {
       text-align: center;
-      color: #cbd5e1;
+      color: var(--text-sub);
       margin-bottom: 28px;
       line-height: 1.6;
     }
@@ -64,10 +118,10 @@
 
     label {
       font-weight: bold;
-      color: #e2e8f0;
+      color: var(--label-color);
     }
 
-    input, button {
+    input, .main-btn {
       border: none;
       border-radius: 14px;
       padding: 14px 16px;
@@ -75,31 +129,32 @@
     }
 
     input {
-      background: rgba(255,255,255,0.92);
-      color: #111827;
+      background: var(--input-bg);
+      color: var(--input-text);
+      border: 1px solid #cbd5e1;
     }
 
-    button {
+    .main-btn {
       width: 100%;
       margin-top: 10px;
-      background: #facc15;
-      color: #111827;
+      background: var(--btn-bg);
+      color: var(--btn-text);
       font-weight: bold;
       cursor: pointer;
       transition: transform 0.15s ease;
     }
 
-    button:hover {
+    .main-btn:hover {
       transform: translateY(-2px);
     }
 
     .analysis {
       margin-top: 24px;
-      background: rgba(255,255,255,0.06);
+      background: var(--analysis-bg);
       border-radius: 18px;
       padding: 18px;
       line-height: 1.7;
-      color: #e5e7eb;
+      color: var(--text-main);
     }
 
     .result-area {
@@ -109,7 +164,7 @@
     }
 
     .set-card {
-      background: rgba(255,255,255,0.06);
+      background: var(--analysis-bg);
       border-radius: 18px;
       padding: 18px;
     }
@@ -117,7 +172,7 @@
     .set-title {
       font-weight: bold;
       margin-bottom: 12px;
-      color: #fde68a;
+      color: var(--set-title-color);
     }
 
     .numbers {
@@ -148,7 +203,7 @@
     .plus {
       font-size: 22px;
       font-weight: bold;
-      color: #fff;
+      color: var(--text-main);
       margin: 0 4px;
     }
 
@@ -161,7 +216,7 @@
     .footer-note {
       margin-top: 18px;
       font-size: 14px;
-      color: #cbd5e1;
+      color: var(--text-sub);
       line-height: 1.6;
     }
 
@@ -182,38 +237,42 @@
     }
   </style>
 </head>
-<body>
+<body data-theme="dark">
   <div class="wrap">
+    <div class="controls">
+      <button class="control-btn" id="lang-toggle" onclick="toggleLanguage()">English</button>
+      <button class="control-btn" id="theme-toggle" onclick="toggleTheme()">☀️ Light Mode</button>
+    </div>
     <div class="card">
-      <h1>명리 로또 번호 추천기</h1>
-      <div class="sub">
+      <h1 id="title">명리 로또 번호 추천기</h1>
+      <div class="sub" id="subtitle">
         이름, 생년월일, 날짜를 입력하면<br>
         그날의 기운을 반영한 명리학 감성 로또 번호 5세트를 추천합니다.
       </div>
 
       <div class="grid">
         <div class="field full">
-          <label for="username">이름</label>
+          <label for="username" id="label-name">이름</label>
           <input type="text" id="username" placeholder="이름을 입력하세요" />
         </div>
 
         <div class="field">
-          <label for="birthdate">생년월일</label>
+          <label for="birthdate" id="label-birth">생년월일</label>
           <input type="date" id="birthdate" />
         </div>
 
         <div class="field">
-          <label for="targetDate">운세를 볼 날짜</label>
+          <label for="targetDate" id="label-date">운세를 볼 날짜</label>
           <input type="date" id="targetDate" />
         </div>
       </div>
 
-      <button onclick="generateFortuneLotto()">이름 반영 로또 번호 추천받기</button>
+      <button class="main-btn" id="generate-btn" onclick="generateFortuneLotto()">이름 반영 로또 번호 추천받기</button>
 
       <div id="analysis" class="analysis" style="display:none;"></div>
       <div id="resultArea" class="result-area"></div>
 
-      <div class="footer-note">
+      <div class="footer-note" id="footer-text">
         이 페이지는 이름과 날짜를 숫자 흐름으로 변환해 명리학적 분위기를 더한 번호 추천 도구다.
         실제 당첨 예측기가 아니라 재미와 개인화 요소를 결합한 형태로 보면 된다.
       </div>
@@ -221,6 +280,91 @@
   </div>
 
   <script>
+    const i18n = {
+      ko: {
+        title: "명리 로또 번호 추천기",
+        subtitle: "이름, 생년월일, 날짜를 입력하면<br>그날의 기운을 반영한 명리학 감성 로또 번호 5세트를 추천합니다.",
+        labelName: "이름",
+        namePlaceholder: "이름을 입력하세요",
+        labelBirth: "생년월일",
+        labelDate: "운세를 볼 날짜",
+        generateBtn: "이름 반영 로또 번호 추천받기",
+        footer: "이 페이지는 이름과 날짜를 숫자 흐름으로 변환해 명리학적 분위기를 더한 번호 추천 도구다. 실제 당첨 예측기가 아니라 재미와 개인화 요소를 결합한 형태로 보면 된다.",
+        alertInput: "이름, 생년월일, 날짜를 모두 입력해 주세요.",
+        setSuffix: "번 추천 세트",
+        analysisTitle: "명리 해석 요약",
+        analysisResult1: "이름 <strong>{name}</strong> 의 수리값 합은 <strong>{total}</strong>, 글자 수는 <strong>{length}</strong>로 반영되었다.",
+        analysisResult2: "선택한 날짜 기준 오행 흐름은 목({wood}) · 화({fire}) · 토({earth}) · 금({metal}) · 수({water}) 로 계산되었다.",
+        analysisResult3: "오늘의 중심 기운은 <strong>{element}</strong>이며, {text}",
+        wood: "목", fire: "화", earth: "토", metal: "금", water: "수",
+        woodText: "성장과 확장의 기운이 강하다. 새로운 선택과 넓혀가는 흐름이 강조되는 날이다.",
+        fireText: "활동성과 추진력이 살아난다. 빠른 판단과 강한 실행력이 잘 맞는 흐름이다.",
+        earthText: "균형과 안정의 기운이 중심이다. 무리한 승부보다 중심을 잡는 감각이 중요하다.",
+        metalText: "정리와 선별의 기운이 강하다. 숫자를 압축하고 집중하는 흐름이 어울린다.",
+        waterText: "직관과 유연함의 기운이 강하다. 감각적으로 흐름을 읽는 방향이 잘 맞는다."
+      },
+      en: {
+        title: "Myeongli Lotto Generator",
+        subtitle: "Enter your name and dates to get 5 sets of Lotto numbers<br>based on Myeongli-hak (Asian astrology) fortune vibes.",
+        labelName: "Name",
+        namePlaceholder: "Enter your name",
+        labelBirth: "Birth Date",
+        labelDate: "Fortune Date",
+        generateBtn: "Get Personalized Numbers",
+        footer: "This page is a fun tool that converts names and dates into number flows with a Myeongli-hak vibe. It's for entertainment and personalization, not a real winning predictor.",
+        alertInput: "Please enter your name, birth date, and target date.",
+        setSuffix: "Recommended Set #",
+        analysisTitle: "Interpretation Summary",
+        analysisResult1: "The numerical sum for <strong>{name}</strong> is <strong>{total}</strong>, with a length of <strong>{length}</strong>.",
+        analysisResult2: "Five Element scores for the selected date: Wood({wood}) · Fire({fire}) · Earth({earth}) · Metal({metal}) · Water({water}).",
+        analysisResult3: "The central energy is <strong>{element}</strong>: {text}",
+        wood: "Wood", fire: "Fire", earth: "Earth", metal: "Metal", water: "Water",
+        woodText: "Strong energy of growth and expansion. A day to embrace new choices and broad horizons.",
+        fireText: "High activity and drive. Quick judgment and strong execution are favored.",
+        earthText: "Energy of balance and stability. Focusing on stability is more important than taking risks.",
+        metalText: "Strong energy of refinement and selection. Suitable for focusing and narrowing down numbers.",
+        waterText: "Strong energy of intuition and flexibility. Trusting your gut feeling works best today."
+      }
+    };
+
+    let currentLang = 'ko';
+
+    function toggleLanguage() {
+      currentLang = currentLang === 'ko' ? 'en' : 'ko';
+      const btn = document.getElementById("lang-toggle");
+      btn.textContent = currentLang === 'ko' ? 'English' : '한국어';
+      updateUI();
+    }
+
+    function updateUI() {
+      const t = i18n[currentLang];
+      document.getElementById("title-tag").textContent = t.title;
+      document.getElementById("title").textContent = t.title;
+      document.getElementById("subtitle").innerHTML = t.subtitle;
+      document.getElementById("label-name").textContent = t.labelName;
+      document.getElementById("username").placeholder = t.namePlaceholder;
+      document.getElementById("label-birth").textContent = t.labelBirth;
+      document.getElementById("label-date").textContent = t.labelDate;
+      document.getElementById("generate-btn").textContent = t.generateBtn;
+      document.getElementById("footer-text").textContent = t.footer;
+      
+      // Clear results on language change to avoid mixed language
+      document.getElementById("analysis").style.display = "none";
+      document.getElementById("resultArea").innerHTML = "";
+    }
+
+    function toggleTheme() {
+      const body = document.body;
+      const btn = document.getElementById("theme-toggle");
+      if (body.getAttribute("data-theme") === "dark") {
+        body.setAttribute("data-theme", "light");
+        btn.textContent = "🌙 Dark Mode";
+      } else {
+        body.setAttribute("data-theme", "dark");
+        btn.textContent = "☀️ Light Mode";
+      }
+    }
+
     function getBallColor(number) {
       if (number <= 10) return "color1";
       if (number <= 20) return "color2";
@@ -266,13 +410,13 @@
       return { wood, fire, earth, metal, water };
     }
 
-    function getStrongElement(scores) {
+    function getStrongElementKey(scores) {
       const entries = [
-        ["목", scores.wood],
-        ["화", scores.fire],
-        ["토", scores.earth],
-        ["금", scores.metal],
-        ["수", scores.water]
+        ["wood", scores.wood],
+        ["fire", scores.fire],
+        ["earth", scores.earth],
+        ["metal", scores.metal],
+        ["water", scores.water]
       ];
 
       entries.sort((a, b) => b[1] - a[1]);
@@ -348,9 +492,10 @@
       const targetDate = document.getElementById("targetDate").value;
       const resultArea = document.getElementById("resultArea");
       const analysis = document.getElementById("analysis");
+      const t = i18n[currentLang];
 
       if (!username || !birthdate || !targetDate) {
-        alert("이름, 생년월일, 날짜를 모두 입력해 주세요.");
+        alert(t.alertInput);
         return;
       }
 
@@ -359,27 +504,16 @@
 
       const nameValue = getNameValue(username);
       const scores = getElementScores(y, m, d, ty, tm, td, nameValue);
-      const strongElement = getStrongElement(scores);
-
-      let fortuneText = "";
-      if (strongElement === "목") {
-        fortuneText = "성장과 확장의 기운이 강하다. 새로운 선택과 넓혀가는 흐름이 강조되는 날이다.";
-      } else if (strongElement === "화") {
-        fortuneText = "활동성과 추진력이 살아난다. 빠른 판단과 강한 실행력이 잘 맞는 흐름이다.";
-      } else if (strongElement === "토") {
-        fortuneText = "균형과 안정의 기운이 중심이다. 무리한 승부보다 중심을 잡는 감각이 중요하다.";
-      } else if (strongElement === "금") {
-        fortuneText = "정리와 선별의 기운이 강하다. 숫자를 압축하고 집중하는 흐름이 어울린다.";
-      } else {
-        fortuneText = "직관과 유연함의 기운이 강하다. 감각적으로 흐름을 읽는 방향이 잘 맞는다.";
-      }
+      const elementKey = getStrongElementKey(scores);
+      const fortuneText = t[elementKey + "Text"];
+      const elementName = t[elementKey];
 
       analysis.style.display = "block";
       analysis.innerHTML = `
-        <strong>명리 해석 요약</strong><br>
-        이름 <strong>${username}</strong> 의 수리값 합은 <strong>${nameValue.total}</strong>, 글자 수는 <strong>${nameValue.length}</strong>로 반영되었다.<br>
-        선택한 날짜 기준 오행 흐름은 목(${scores.wood}) · 화(${scores.fire}) · 토(${scores.earth}) · 금(${scores.metal}) · 수(${scores.water}) 로 계산되었다.<br>
-        오늘의 중심 기운은 <strong>${strongElement}</strong>이며, ${fortuneText}
+        <strong>${t.analysisTitle}</strong><br>
+        ${t.analysisResult1.replace("{name}", username).replace("{total}", nameValue.total).replace("{length}", nameValue.length)}<br>
+        ${t.analysisResult2.replace("{wood}", scores.wood).replace("{fire}", scores.fire).replace("{earth}", scores.earth).replace("{metal}", scores.metal).replace("{water}", scores.water)}<br>
+        ${t.analysisResult3.replace("{element}", elementName).replace("{text}", fortuneText)}
       `;
 
       resultArea.innerHTML = "";
@@ -392,7 +526,7 @@
 
         const title = document.createElement("div");
         title.className = "set-title";
-        title.textContent = `${i}번 추천 세트`;
+        title.textContent = currentLang === 'ko' ? `${i}${t.setSuffix}` : `${t.setSuffix}${i}`;
 
         const numbersDiv = document.createElement("div");
         numbersDiv.className = "numbers";
@@ -425,6 +559,7 @@
       const today = new Date();
       const todayStr = `${today.getFullYear()}-${pad(today.getMonth() + 1)}-${pad(today.getDate())}`;
       document.getElementById("targetDate").value = todayStr;
+      updateUI();
     };
   </script>
 </body>
