@@ -285,9 +285,9 @@
           </div>
           <div class="field">
             <label for="contact-message" id="label-contact-message">문의 내용</label>
-            <textarea name="message" id="contact-message" style="width: 100%; height: 100px; border-radius: 14px; padding: 14px 16px; font-size: 16px; background: var(--input-bg); color: var(--input-text); border: 1px solid #cbd5e1; font-family: inherit; resize: none;" required></textarea>
+            <textarea name="message" id="contact-message" oninput="handleContactInput()" style="width: 100%; height: 100px; border-radius: 14px; padding: 14px 16px; font-size: 16px; background: var(--input-bg); color: var(--input-text); border: 1px solid #cbd5e1; font-family: inherit; resize: none;" required></textarea>
           </div>
-          <button type="submit" class="main-btn" id="contact-submit-btn" style="background: var(--text-sub); color: var(--bg-gradient); margin-top: 5px;">문의 보내기</button>
+          <button type="submit" class="main-btn" id="contact-submit-btn" style="background: var(--text-sub); color: var(--bg-gradient); margin-top: 5px; transition: all 0.3s ease;">문의 보내기</button>
         </form>
       </div>
 
@@ -320,7 +320,12 @@
         fireText: "활동성과 추진력이 살아난다. 빠른 판단과 강한 실행력이 잘 맞는 흐름이다.",
         earthText: "균형과 안정의 기운이 중심이다. 무리한 승부보다 중심을 잡는 감각이 중요하다.",
         metalText: "정리와 선별의 기운이 강하다. 숫자를 압축하고 집중하는 흐름이 어울린다.",
-        waterText: "직관과 유연함의 기운이 강하다. 감각적으로 흐름을 읽는 방향이 잘 맞는다."
+        waterText: "직관과 유연함의 기운이 강하다. 감각적으로 흐름을 읽는 방향이 잘 맞는다.",
+        contactTitle: "제휴 문의",
+        labelContactName: "이름/기업명",
+        labelContactEmail: "이메일",
+        labelContactMessage: "문의 내용",
+        contactSubmit: "문의 보내기"
       },
       en: {
         title: "Myeongli Powerball Generator",
@@ -342,7 +347,12 @@
         fireText: "High activity and drive. Quick judgment and strong execution are favored.",
         earthText: "Energy of balance and stability. Focusing on stability is more important than taking risks.",
         metalText: "Strong energy of refinement and selection. Suitable for focusing and narrowing down numbers.",
-        waterText: "Strong energy of intuition and flexibility. Trusting your gut feeling works best today."
+        waterText: "Strong energy of intuition and flexibility. Trusting your gut feeling works best today.",
+        contactTitle: "Partnership Inquiry",
+        labelContactName: "Name/Company",
+        labelContactEmail: "Email",
+        labelContactMessage: "Message",
+        contactSubmit: "Send Inquiry"
       }
     };
 
@@ -367,8 +377,30 @@
       document.getElementById("generate-btn").textContent = t.generateBtn;
       document.getElementById("footer-text").textContent = t.footer;
       
+      // Update contact form
+      document.getElementById("contact-title").textContent = t.contactTitle;
+      document.getElementById("label-contact-name").textContent = t.labelContactName;
+      document.getElementById("label-contact-email").textContent = t.labelContactEmail;
+      document.getElementById("label-contact-message").textContent = t.labelContactMessage;
+      document.getElementById("contact-submit-btn").textContent = t.contactSubmit;
+
       document.getElementById("analysis").style.display = "none";
       document.getElementById("resultArea").innerHTML = "";
+      
+      // Reset contact button state on UI update
+      handleContactInput();
+    }
+
+    function handleContactInput() {
+      const message = document.getElementById("contact-message").value.trim();
+      const btn = document.getElementById("contact-submit-btn");
+      if (message.length > 0) {
+        btn.style.background = "var(--btn-bg)";
+        btn.style.color = "var(--btn-text)";
+      } else {
+        btn.style.background = "var(--text-sub)";
+        btn.style.color = "var(--bg-gradient)";
+      }
     }
 
     function toggleTheme() {
