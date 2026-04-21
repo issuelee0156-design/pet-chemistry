@@ -304,14 +304,14 @@
         waterText: "직관과 유연함의 기운이 강하다. 감각적으로 흐름을 읽는 방향이 잘 맞는다."
       },
       en: {
-        title: "Myeongli Lotto Generator",
-        subtitle: "Enter your name and dates to get 5 sets of Lotto numbers<br>based on Myeongli-hak (Asian astrology) fortune vibes.",
+        title: "Myeongli Powerball Generator",
+        subtitle: "Enter your name and dates to get 5 sets of Powerball numbers<br>based on Myeongli-hak (Asian astrology) fortune vibes.",
         labelName: "Name",
         namePlaceholder: "Enter your name",
         labelBirth: "Birth Date",
         labelDate: "Fortune Date",
-        generateBtn: "Get Personalized Numbers",
-        footer: "This page is a fun tool that converts names and dates into number flows with a Myeongli-hak vibe. It's for entertainment and personalization, not a real winning predictor.",
+        generateBtn: "Get Personalized Powerball Numbers",
+        footer: "This page is a fun tool that converts names and dates into number flows with a Myeongli-hak vibe. It uses US Powerball rules (5/69 + 1/26) for English mode.",
         alertInput: "Please enter your name, birth date, and target date.",
         setSuffix: "Recommended Set #",
         analysisTitle: "Interpretation Summary",
@@ -348,7 +348,6 @@
       document.getElementById("generate-btn").textContent = t.generateBtn;
       document.getElementById("footer-text").textContent = t.footer;
       
-      // Clear results on language change to avoid mixed language
       document.getElementById("analysis").style.display = "none";
       document.getElementById("resultArea").innerHTML = "";
     }
@@ -365,11 +364,12 @@
       }
     }
 
-    function getBallColor(number) {
-      if (number <= 10) return "color1";
-      if (number <= 20) return "color2";
-      if (number <= 30) return "color3";
-      if (number <= 40) return "color4";
+    function getBallColor(number, isPowerball = false) {
+      if (isPowerball) return "color3"; // Powerball is usually red-ish
+      if (number <= 15) return "color1";
+      if (number <= 30) return "color2";
+      if (number <= 45) return "color3";
+      if (number <= 55) return "color4";
       return "color5";
     }
 
@@ -423,20 +423,18 @@
       return entries[0][0];
     }
 
-    function getLuckyNumberBases(scores, y, m, d, ty, tm, td, nameValue) {
+    function getLuckyNumberBases(scores, y, m, d, ty, tm, td, nameValue, range) {
       const total = y + m + d + ty + tm + td + nameValue.total;
-      const nameMain = nameValue.total % 45 || 45;
-      const nameSub = (nameValue.chars.reduce((a, b) => a + b, 0) * nameValue.length) % 45 || 45;
+      const nameMain = nameValue.total % range || range;
+      const nameSub = (nameValue.chars.reduce((a, b) => a + b, 0) * nameValue.length) % range || range;
 
       const bases = [];
-      bases.push((scores.wood * 3 + nameMain) % 45 || 45);
-      bases.push((scores.fire * 5 + nameSub) % 45 || 45);
-      bases.push((scores.earth * 7 + nameValue.length) % 45 || 45);
-      bases.push((scores.metal * 9 + nameMain + nameValue.length) % 45 || 45);
-      bases.push((scores.water * 11 + nameSub) % 45 || 45);
-      bases.push((total % 45) || 45);
-      bases.push(((y + ty + nameValue.total) % 45) || 45);
-      bases.push(((m * d + tm * td + nameValue.length) % 45) || 45);
+      bases.push((scores.wood * 3 + nameMain) % range || range);
+      bases.push((scores.fire * 5 + nameSub) % range || range);
+      bases.push((scores.earth * 7 + nameValue.length) % range || range);
+      bases.push((scores.metal * 9 + nameMain + nameValue.length) % range || range);
+      bases.push((scores.water * 11 + nameSub) % range || range);
+      bases.push((total % range) || range);
 
       return [...new Set(bases)];
     }
@@ -456,22 +454,27 @@
     }
 
     function createFortuneSet(y, m, d, ty, tm, td, scores, setIndex, nameValue) {
-      const luckyBases = getLuckyNumberBases(scores, y, m, d, ty, tm, td, nameValue);
+      const isPowerballMode = currentLang === 'en';
+      const mainRange = isPowerballMode ? 69 : 45;
+      const bonusRange = isPowerballMode ? 26 : 45;
+      const mainCount = isPowerballMode ? 5 : 6;
+
+      const luckyBases = getLuckyNumberBases(scores, y, m, d, ty, tm, td, nameValue, mainRange);
       const numbersSet = new Set();
 
       luckyBases.forEach((num, idx) => {
         if (numbersSet.size < 2) {
-          let adjusted = ((num + setIndex * (idx + 2) + nameValue.length) % 45);
-          adjusted = adjusted === 0 ? 45 : adjusted;
+          let adjusted = ((num + setIndex * (idx + 2) + nameValue.length) % mainRange);
+          adjusted = adjusted === 0 ? mainRange : adjusted;
           numbersSet.add(adjusted);
         }
       });
 
       let seed = createFortuneSeed(y, m, d, ty, tm, td, setIndex, nameValue);
 
-      while (numbersSet.size < 6) {
+      while (numbersSet.size < mainCount) {
         seed += 17;
-        let num = Math.floor(seededRandom(seed) * 45) + 1;
+        let num = Math.floor(seededRandom(seed) * mainRange) + 1;
         numbersSet.add(num);
       }
 
@@ -480,10 +483,10 @@
       let bonus;
       do {
         seed += 29;
-        bonus = Math.floor(seededRandom(seed) * 45) + 1;
-      } while (numbers.includes(bonus));
+        bonus = Math.floor(seededRandom(seed) * bonusRange) + 1;
+      } while (!isPowerballMode && numbers.includes(bonus));
 
-      return { numbers, bonus };
+      return { numbers, bonus, isPowerballMode };
     }
 
     function generateFortuneLotto() {
@@ -543,8 +546,11 @@
         plus.textContent = "+";
 
         const bonusBall = document.createElement("div");
-        bonusBall.className = "ball bonus";
+        bonusBall.className = `ball bonus ${set.isPowerballMode ? 'powerball' : ''}`;
         bonusBall.textContent = set.bonus;
+        if (set.isPowerballMode) {
+          bonusBall.style.background = "#ef4444"; // Powerball typical color
+        }
 
         numbersDiv.appendChild(plus);
         numbersDiv.appendChild(bonusBall);
