@@ -48,6 +48,8 @@ function updateCommonUI() {
   if (navLotto) navLotto.textContent = t.navLotto;
   if (navPet) navPet.textContent = t.navPet;
   if (navAbout) navAbout.textContent = t.navAbout;
+  const navBlog = document.getElementById("nav-blog");
+  if (navBlog) navBlog.textContent = t.navBlog;
 
   // Footer
   const footerAbout = document.getElementById("footer-about");

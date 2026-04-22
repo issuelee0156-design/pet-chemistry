@@ -4,6 +4,7 @@ const i18n = {
     navLotto: "로또 번호 생성",
     navPet: "반려동물 궁합",
     navAbout: "소개",
+    navBlog: "블로그",
     navTerms: "이용약관",
     navPrivacy: "개인정보처리방침",
     navContact: "제휴문의",
@@ -107,6 +108,58 @@ const i18n = {
       <p>우리는 일상의 작은 선택들이 긍정적인 마음가짐에서 시작된다고 믿습니다. 명리학적 관점에서 행운의 흐름을 이해하는 것은 사용자에게 정서적 위안과 색다른 즐거움을 제공합니다. 앞으로도 더 정교한 알고리즘과 유익한 콘텐츠를 통해 사용자 여러분의 삶에 작은 행복을 더하는 서비스를 만들어 나가겠습니다.</p>
     `,
 
+    // Blog Page
+    blogTitle: "블로그",
+    blogContent: `
+      <div class="blog-grid">
+        <article class="blog-card">
+          <div class="blog-card-header">
+            <span class="blog-tag">명리학 기초</span>
+            <span class="blog-date">2025년 4월 15일</span>
+          </div>
+          <h2>오행(五行)이란? 목·화·토·금·수의 기운 완전 정리</h2>
+          <p>동양 철학의 핵심인 오행(五行)은 목(木)·화(火)·토(土)·금(金)·수(水), 다섯 가지 기운이 자연과 인간의 모든 현상을 이루고 순환한다는 사상입니다. 수천 년간 동아시아 의학·철학·문화의 근간이 되어온 이 개념은 오늘날에도 명리학, 풍수, 한의학 등 다양한 분야에 살아 숨쉬고 있습니다.</p>
+          <h3>다섯 기운의 특성</h3>
+          <ul>
+            <li><strong>목(木) — 나무:</strong> 성장, 확장, 시작의 기운. 봄처럼 위로 뻗어나가는 에너지로, 창의성과 도전 정신을 상징합니다.</li>
+            <li><strong>화(火) — 불:</strong> 활동성, 열정, 추진력의 기운. 여름처럼 활활 타오르며 빠른 실행과 화려한 표현을 이끕니다.</li>
+            <li><strong>토(土) — 흙:</strong> 균형, 안정, 신뢰의 기운. 사계절의 환절기처럼 중심을 잡고 조화를 만들어냅니다.</li>
+            <li><strong>금(金) — 쇠:</strong> 정제, 선별, 집중의 기운. 가을처럼 불필요한 것을 걷어내고 본질을 드러냅니다.</li>
+            <li><strong>수(水) — 물:</strong> 직관, 유연성, 지혜의 기운. 겨울처럼 고요히 흐르며 깊은 통찰을 가져옵니다.</li>
+          </ul>
+          <p>오행은 서로를 낳기도(상생, 相生)하고 제어하기도(상극, 相剋) 합니다. 이 순환의 흐름을 읽는 것이 바로 명리학의 출발점입니다. 저희 서비스는 날짜와 이름 데이터를 이 오행 체계에 대입하여 오늘의 흐름을 직관적으로 파악할 수 있게 도와드립니다.</p>
+        </article>
+
+        <article class="blog-card">
+          <div class="blog-card-header">
+            <span class="blog-tag">로또 활용법</span>
+            <span class="blog-date">2025년 4월 8일</span>
+          </div>
+          <h2>명리 로또 번호, 어떻게 활용하면 가장 좋을까?</h2>
+          <p>명리 로또 번호 추천기는 단순한 난수 생성기가 아닙니다. 이름의 수리값, 생년월일, 그리고 당일 오행의 흐름을 종합하여 <em>그날 당신에게 가장 어울리는</em> 번호 조합을 제안합니다. 더 풍부하게 활용하는 세 가지 팁을 소개합니다.</p>
+          <h3>팁 1 — 오행 해석 요약을 꼭 읽어보세요</h3>
+          <p>번호가 생성된 후 하단에 표시되는 '명리 해석 요약'에는 오늘의 중심 기운과 그 의미가 담겨 있습니다. 예를 들어 오늘이 '수(水)' 기운이 강한 날이라면 직관적 판단이 유리하다는 신호입니다. 번호를 고르는 기준으로 삼아보세요.</p>
+          <h3>팁 2 — 꾸준히 같은 날짜에 시도해보세요</h3>
+          <p>오행의 흐름은 날짜마다 달라집니다. 매주 구매일을 고정하고 그날의 번호를 받아보면, 날짜별 기운 변화를 자연스럽게 체감할 수 있습니다.</p>
+          <h3>팁 3 — 즐거운 마음으로 접근하세요</h3>
+          <p>이 서비스는 당첨을 보장하는 도구가 아닙니다. 명리학적 시각으로 오늘의 흐름을 읽고, 작은 기대감과 설렘을 더하는 것이 핵심입니다. 긍정적인 마음가짐이 하루를 더 풍요롭게 만듭니다.</p>
+        </article>
+
+        <article class="blog-card">
+          <div class="blog-card-header">
+            <span class="blog-tag">반려동물</span>
+            <span class="blog-date">2025년 3월 28일</span>
+          </div>
+          <h2>반려동물도 오행 기운이 있다? 우리 아이와의 교감 지수 높이기</h2>
+          <p>반려동물 궁합 테스트는 AI 이미지 분석과 오행 이론을 결합한 독특한 서비스입니다. 사진에서 추출한 색상·형태 데이터를 오행으로 환산한 뒤, 당일 기운과의 조화를 계산해 교감 지수를 산출합니다.</p>
+          <h3>점수가 높다는 것은?</h3>
+          <p>오늘 반려동물과 나의 오행 에너지가 잘 맞물린다는 뜻입니다. 함께 산책하거나 새로운 놀이를 시도하기 좋은 날입니다. 반대로 점수가 낮은 날은 조용히 옆에 앉아 있어 주는 것만으로도 충분한 교감이 됩니다.</p>
+          <h3>매일 다른 점수의 의미</h3>
+          <p>점수는 매일 달라집니다. 이는 어느 날의 관계가 더 좋거나 나쁘다는 뜻이 아니라, 그날의 흐름에 따라 어떤 방식의 교감이 가장 효과적인지를 알려주는 지표입니다. 꾸준히 기록해두면 반려동물과의 패턴을 발견하는 즐거움도 있습니다.</p>
+        </article>
+      </div>
+    `,
+
     // Terms Page
     termsTitle: "이용약관",
     termsContent: `
@@ -177,6 +230,7 @@ const i18n = {
     navLotto: "Lotto Generator",
     navPet: "Pet Compatibility",
     navAbout: "About",
+    navBlog: "Blog",
     navTerms: "Terms",
     navPrivacy: "Privacy",
     navContact: "Contact",
@@ -278,6 +332,58 @@ const i18n = {
 
       <h3>Mission and Vision</h3>
       <p>We believe small daily choices start with a positive mindset. Understanding the flow of fortune from a Myeongli-hak perspective provides users with emotional comfort and unique entertainment. We will continue to create services that add small happiness to your lives through more sophisticated algorithms and useful content.</p>
+    `,
+
+    // Blog Page
+    blogTitle: "Blog",
+    blogContent: `
+      <div class="blog-grid">
+        <article class="blog-card">
+          <div class="blog-card-header">
+            <span class="blog-tag">Basics</span>
+            <span class="blog-date">April 15, 2025</span>
+          </div>
+          <h2>What Are the Five Elements? A Complete Guide to Wood, Fire, Earth, Metal & Water</h2>
+          <p>The Five Elements (五行, Ohaeng) are the cornerstone of Eastern philosophy. They describe how five fundamental energies — Wood, Fire, Earth, Metal, and Water — form and cycle through all natural phenomena and human experience. For thousands of years, this framework has underpinned East Asian medicine, philosophy, and culture, and it remains alive today in fields like Myeongli-hak, feng shui, and traditional medicine.</p>
+          <h3>The Five Energies</h3>
+          <ul>
+            <li><strong>Wood (木):</strong> Growth, expansion, new beginnings. Like spring reaching upward, it symbolizes creativity and ambition.</li>
+            <li><strong>Fire (火):</strong> Action, passion, drive. Like a summer blaze, it fuels rapid execution and vibrant expression.</li>
+            <li><strong>Earth (土):</strong> Balance, stability, trust. Like the transition between seasons, it holds the center and creates harmony.</li>
+            <li><strong>Metal (金):</strong> Refinement, focus, clarity. Like autumn stripping away leaves, it reveals the essential.</li>
+            <li><strong>Water (水):</strong> Intuition, flexibility, wisdom. Like a quiet winter river, it flows deep with insight.</li>
+          </ul>
+          <p>The Five Elements cycle through two key relationships — generation (相生) and restraint (相剋). Reading this flow is the starting point of Myeongli-hak. Our service maps your name and date data onto this framework so you can intuitively grasp today's energetic current.</p>
+        </article>
+
+        <article class="blog-card">
+          <div class="blog-card-header">
+            <span class="blog-tag">Lotto Tips</span>
+            <span class="blog-date">April 8, 2025</span>
+          </div>
+          <h2>How to Get the Most Out of the Myeongli Lotto Generator</h2>
+          <p>The Myeongli Lotto Generator is more than a random number picker. It synthesizes the numerical value of your name, your birth date, and the day's Five Element flow to suggest number combinations that resonate with <em>you, today</em>. Here are three tips to use it more meaningfully.</p>
+          <h3>Tip 1 — Read the Interpretation Summary</h3>
+          <p>After your numbers are generated, the "Interpretation Summary" below explains the dominant energy of the day. If today's central element is Water, for instance, it signals that intuitive judgment is your strongest tool. Let that context guide how you feel about the numbers.</p>
+          <h3>Tip 2 — Pick a Consistent Day of the Week</h3>
+          <p>Five Element flows shift daily. If you fix one day as your regular draw day and request numbers on that day each week, you'll naturally start to sense how the energy varies and what patterns feel right for you.</p>
+          <h3>Tip 3 — Bring a Playful Mindset</h3>
+          <p>This tool is not a guarantee of winning — it's a way to add a layer of personal meaning and light anticipation to the ritual. A positive, open attitude is ultimately the best luck charm of all.</p>
+        </article>
+
+        <article class="blog-card">
+          <div class="blog-card-header">
+            <span class="blog-tag">Pets</span>
+            <span class="blog-date">March 28, 2025</span>
+          </div>
+          <h2>Do Pets Have Five Element Energy Too? Deepening Your Bond</h2>
+          <p>The Pet Compatibility Test combines AI image analysis with Five Element theory. It extracts color and shape data from uploaded photos, converts that data into Five Element scores, then measures how well those scores harmonize with the day's energy to produce a bond index.</p>
+          <h3>What Does a High Score Mean?</h3>
+          <p>A high score means your Five Element energy and your pet's are well-aligned today. It's a great day for a walk, introducing a new toy, or trying something active together. On lower-score days, simply sitting quietly beside your pet can be the deepest form of connection.</p>
+          <h3>Why the Score Changes Every Day</h3>
+          <p>Scores vary daily — not because the relationship is better or worse, but because different days call for different styles of connection. Track the scores over time and you may discover interesting patterns in how you and your pet sync up throughout the week.</p>
+        </article>
+      </div>
     `,
 
     // Terms Page

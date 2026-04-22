@@ -253,6 +253,68 @@ footer {
   margin-bottom: 12px;
 }
 
+.blog-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.blog-card {
+  background: var(--analysis-bg);
+  border-radius: 16px;
+  padding: 24px 28px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+[data-theme="light"] .blog-card {
+  border-color: rgba(0, 0, 0, 0.08);
+}
+
+.blog-card-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.blog-tag {
+  display: inline-block;
+  font-size: 11px;
+  background: var(--btn-bg);
+  color: var(--btn-text);
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-weight: bold;
+}
+
+.blog-date {
+  font-size: 13px;
+  color: var(--text-sub);
+}
+
+.blog-card h2 {
+  font-size: 20px;
+  margin: 0 0 14px;
+  color: var(--set-title-color);
+}
+
+.blog-card p {
+  margin: 0 0 12px;
+  line-height: 1.75;
+}
+
+.blog-card ul {
+  padding-left: 20px;
+  line-height: 1.8;
+  margin: 0 0 12px;
+}
+
+.blog-card h3 {
+  font-size: 16px;
+  margin: 18px 0 8px;
+  color: var(--text-main);
+}
+
 @media (max-width: 760px) {
   h1 {
     font-size: 28px;
